@@ -19,7 +19,14 @@ document.addEventListener('DOMContentLoaded', function () {
   const categoriaFiltro = document.getElementById('categoria-filtro');
   const exportarContatosButton = document.getElementById('exportar-contatos');
 
-  let contacts = JSON.parse(localStorage.getItem('contacts')) || [];
+  let contacts = JSON.parse(localStorage.getItem('contacts')) || [
+  {
+    "Nome": "Eduardo Pontes ",
+    "Telefone": "(88)99632-8842",
+    "Categoria": "Desenvolver front End",
+    "Premium": "Até 02/02/2025"
+  }
+];
   let categorias = JSON.parse(localStorage.getItem('categorias')) || ["Saúde", "Emergência", "Transporte", "Restaurantes", "Educação", "Lazer", "Comércio"];
 
   // Função para salvar dados no localStorage

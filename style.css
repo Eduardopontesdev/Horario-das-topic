@@ -1,0 +1,214 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+  outline: none;
+  list-style-type: none;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  min-height: 100vh; 
+  background-color: #f4f4f4; 
+  color: #333; 
+}
+
+main {
+  width: 100%;
+  max-width: 800px; 
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+  background-color: #fff; 
+}
+
+img {
+  max-width: 300px;
+  margin-bottom: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.rota-valor {
+  display: flex;
+  justify-content: center; 
+}
+
+.rota-valor h1 {
+  font-size: 28px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.rota-valor .valor {
+  font-size: 24px;
+  color: #009688;
+  padding: 12px;
+}
+
+.resultado h1 {
+  font-size: 22px;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.patrocinio {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 10px;
+  border-top: 1px solid #ddd; 
+}
+
+.patrocinio p {
+  font-size: 22px;
+  text-align: center;
+  color: #555;
+}
+
+.patrocinio span {
+  font-size: 22px;
+  font-weight: bold;
+  color: #009688; 
+  cursor: pointer;
+}
+
+
+.patrocinio img {
+  height: 100%;
+  width: 100%;
+  border-radius: 10px;
+  margin-top: 5px;
+  cursor: pointer;
+}
+
+.rota {
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.semana,
+.sabado,
+.domingo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.span-chegada,
+.span-saida,
+.span-passada {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 3px;
+  padding: 10px 2px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.span-chegada {
+  background-color: #2196F3; 
+  color: #fff;
+}
+
+.span-saida {
+  background-color: #4CAF50; 
+  color: #fff;
+}
+
+.span-passada {
+  background-color: #FFC107; 
+  color: #333;
+}
+
+.selecao {
+  position: relative; 
+  text-align: center;
+  margin-bottom: 6px;
+}
+
+.selecao select {
+  font-size: 18px;
+  padding: 10px 6px;
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  appearance: none; 
+  -webkit-appearance: none; 
+  background-position: right 10px center; 
+  background-color: #fff;
+}
+
+.container-horarios {
+  font-size: 14px;
+  display: flex;
+  flex-wrap: wrap; 
+  justify-content: center;
+  gap: 2px;
+}
+
+.saida,
+.chegada {
+  /* padding: 5px; */
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  text-align: center;
+}
+
+.saida-dia,
+.chegada-dia {
+  /* padding: 5px; */
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  margin: 5px;
+  font-weight: bold;
+}
+
+.clique-aqui {
+  font-size: 2px;
+}
+
+.hide {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  main {
+    width: 90%;
+  }
+
+  .rota-valor {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .container-horarios {
+    justify-content: center;
+    flex-wrap: nowrap;
+  }
+
+  .span-chegada,
+  .span-saida,
+  .span-passada {
+    font-size: 9px;
+    margin: 0;
+    height: 35px;
+    width: 60px;
+    flex-direction: column;
+  }
+
+  .hide {
+    display: none;
+  }
+}

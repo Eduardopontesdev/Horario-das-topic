@@ -19,8 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const categoriaFiltro = document.getElementById('categoria-filtro');
   const exportarContatosButton = document.getElementById('exportar-contatos');
 
-  let contacts = JSON.parse(localStorage.getItem('contacts')) || [
-  
+  const contatosCamocim = [
   {
     nome: "Hospital Municipal de Camocim",
     telefone: "(88) 3621-1234",
@@ -142,6 +141,11 @@ document.addEventListener('DOMContentLoaded', function () {
     premiumUntil: null,
   },
 ];
+
+  let contacts = contatosCamocim; // Substitua a array inicial por esta
+localStorage.setItem('contacts', JSON.stringify(contacts)); // Salva no localStorage
+renderContacts(contacts); // Renderiza os contatos na tela
+      
   let categorias = JSON.parse(localStorage.getItem('categorias')) || ["Saúde", "Emergência", "Transporte", "Restaurantes", "Educação", "Lazer", "Comércio"];
 
   // Função para salvar dados no localStorage

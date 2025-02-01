@@ -1,163 +1,283 @@
-const topics = [
-  {
-    // Granja a Camocim
-    topic: 1,
-    rota: "Granja - Camocim",
-    saidarota: "Granja",
-    chegadarota: "Camocim",
-    segundaasexta: {
-      saida: [
-        "05:45", "06:00", "06:20", "06:40", "07:00", "07:20", "07:40", "08:00", "08:20", "08:40",
-        "09:00", "09:20", "09:40", "10:00", "10:20", "10:40", "11:00", "11:20", "11:40", "12:00",
-        "12:25", "12:50", "13:15", "13:40", "14:05", "14:30", "14:55", "15:20", "15:45", "16:10",
-        "16:35", "17:00", "17:25", "18:00",
-      ],
-      chegada: [
-        "06:25", "06:40", "07:00", "07:20", "07:40", "08:00", "08:20", "08:40", "09:00", "09:20",
-        "09:40", "10:00", "10:20", "10:40", "11:00", "11:20", "11:40", "12:00", "12:20", "12:40",
-        "13:05", "13:30", "13:55", "14:20", "14:45", "15:10", "15:35", "16:00", "16:25", "16:50",
-        "17:15", "17:40", "18:05", "18:40",
-      ],
-    },
-    sabado: {
-      saidarota: "Granja",
-      chegadarota: "Camocim",
-      saida: [],
-      chegada: [],
-    },
-    valor: 7.25,
-    domingo: {
-      saidarota: "Granja",
-      chegadarota: "Camocim",
-      saida: [],
-      chegada: [],
-    },
-    rotaadicional: {
-      cidade1: { nome: "", passada: [], sabado: { passada: [] }, domingo: { passada: [] } },
-      cidade2: { nome: "", passada: [], sabado: { passada: [] }, domingo: { passada: [] } },
-      cidade3: { nome: "", passada: [], sabado: { passada: [] }, domingo: { passada: [] } },
-      cidade4: { nome: "", passada: [], sabado: { passada: [] }, domingo: { passada: [] } },
-    },
-  },
-  // Camocim a Granja
-  {
-    topic: 2,
-    rota: "Camocim - Granja",
-    saidarota: "Camocim",
-    chegadarota: "Granja",
-    segundaasexta: {
-      saida: [
-        "06:30", "06:45", "07:05", "07:25", "07:45", "08:05", "08:25", "08:45", "09:05", "09:25",
-        "09:45", "10:05", "10:25", "10:45", "11:05", "11:25", "11:45", "12:05", "12:25", "12:45",
-        "13:10", "13:35", "14:00", "14:25", "14:50", "15:15", "15:40", "16:05", "16:30", "16:55",
-        "17:20", "17:45", "18:10", "18:45",
-      ],
-      chegada: [
-        "07:10", "07:25", "07:45", "08:05", "08:25", "08:45", "09:05", "09:25", "09:45", "10:05",
-        "10:25", "10:45", "11:05", "11:25", "11:45", "12:05", "12:25", "12:45", "13:05", "13:25",
-        "13:50", "14:15", "14:40", "15:05", "15:30", "15:55", "16:20", "16:45", "17:10", "17:35",
-        "18:00", "18:25", "18:50", "19:25",
-      ],
-    },
-    sabado: {
-      saidarota: "Camocim",
-      chegadarota: "Granja",
-      saida: [],
-      chegada: [],
-    },
-    valor: 7.25,
-    domingo: {
-      saidarota: "Camocim",
-      chegadarota: "Granja",
-      saida: [],
-      chegada: [],
-    },
-    rotaadicional: {
-      cidade1: { nome: "", passada: [], sabado: { passada: [] }, domingo: { passada: [] } },
-      cidade2: { nome: "", passada: [], sabado: { passada: [] }, domingo: { passada: [] } },
-      cidade3: { nome: "", passada: [], sabado: { passada: [] }, domingo: { passada: [] } },
-      cidade4: { nome: "", passada: [], sabado: { passada: [] }, domingo: { passada: [] } },
-    },
-  },
-  // ... (insira os demais objetos do array topics aqui)
-];
+document.addEventListener('DOMContentLoaded', function () {
+  const homeLink = document.getElementById('home-link');
+  const cadastroLink = document.getElementById('cadastro-link');
+  const adminLink = document.getElementById('admin-link');
+  const listagemSection = document.getElementById('listagem');
+  const cadastroSection = document.getElementById('cadastro');
+  const administracaoSection = document.getElementById('administracao');
+  const editarContatosSection = document.getElementById('editar-contatos-section');
+  const gerenciarCategoriasSection = document.getElementById('gerenciar-categorias-section');
+  const adminContactList = document.getElementById('admin-contact-list');
+  const categoriasList = document.getElementById('categorias-list');
+  const categoriaForm = document.getElementById('categoria-form');
+  const novaCategoriaInput = document.getElementById('nova-categoria');
+  const cadastroForm = document.getElementById('cadastro-form');
+  const contactList = document.getElementById('contact-list');
+  const searchInput = document.getElementById('search');
+  const mensagemSucesso = document.getElementById('mensagem-sucesso');
+  const categoriaSelect = document.getElementById('categoria');
+  const categoriaFiltro = document.getElementById('categoria-filtro');
+  const exportarContatosButton = document.getElementById('exportar-contatos');
 
-const selectHorario = document.getElementById("listaHorarios");
+  let contacts = JSON.parse(localStorage.getItem('contacts')) || [];
+  let categorias = JSON.parse(localStorage.getItem('categorias')) || ["Saúde", "Emergência", "Transporte", "Restaurantes", "Educação", "Lazer", "Comércio"];
 
-// Função para carregar as rotas no dropdown
-function optionHorarios() {
-  // Limpa o select antes de preencher
-  selectHorario.innerHTML = '<option value="0">👉 Escolha o horário da topic 👈</option>';
+  // Função para salvar dados no localStorage
+  function saveData() {
+    localStorage.setItem('contacts', JSON.stringify(contacts));
+    localStorage.setItem('categorias', JSON.stringify(categorias));
+  }
 
-  // Preenche o select com as rotas
-  topics.forEach((topic) => {
-    const option = document.createElement("option");
-    option.value = topic.topic; // Usa o número da rota como valor
-    option.textContent = topic.rota; // Usa o nome da rota como texto
-    selectHorario.appendChild(option);
+  // Função para renderizar categorias no select
+  function renderCategoriasSelect() {
+    const options = categorias.map(cat => `<option value="${cat}">${cat}</option>`).join('');
+    categoriaSelect.innerHTML = options;
+    categoriaFiltro.innerHTML = `<option value="Todas">Todas</option>${options}`;
+  }
+
+  // Função para alternar entre as seções
+  homeLink.addEventListener('click', function (e) {
+    e.preventDefault();
+    showSection(listagemSection);
+    renderContacts(contacts);
   });
-}
 
-// Função para exibir os horários
-function pegaHorario(item) {
-  const main = document.querySelector(".main");
-  const resultado = document.querySelector(".resultado");
+  cadastroLink.addEventListener('click', function (e) {
+    e.preventDefault();
+    showSection(cadastroSection);
+  });
 
-  if (item != 0) {
-    main.classList.remove("hide");
-    resultado.classList.remove("hide");
+  adminLink.addEventListener('click', function (e) {
+    e.preventDefault();
+    showSection(administracaoSection);
+  });
 
-    const topic = topics.find((t) => t.topic === item);
-    if (topic) {
-      document.getElementById("rota").textContent = topic.rota;
-      document.getElementById("valor").textContent = `R$ ${topic.valor.toFixed(2)}`;
+  document.getElementById('editar-contatos').addEventListener('click', function () {
+    editarContatosSection.classList.remove('hidden');
+    gerenciarCategoriasSection.classList.add('hidden');
+    renderAdminContacts();
+  });
 
-      // Exibir horários
-      exibirHorarios(topic.segundaasexta, "saidaSemana", "chegadaSemana");
-      exibirHorarios(topic.sabado, "saidaSabado", "chegadaSabado");
-      exibirHorarios(topic.domingo, "saidaDomingo", "chegadaDomingo");
+  document.getElementById('gerenciar-categorias').addEventListener('click', function () {
+    gerenciarCategoriasSection.classList.remove('hidden');
+    editarContatosSection.classList.add('hidden');
+    renderCategorias();
+  });
+
+  // Função para exibir uma seção e ocultar as outras
+  function showSection(section) {
+    listagemSection.classList.add('hidden');
+    cadastroSection.classList.add('hidden');
+    administracaoSection.classList.add('hidden');
+    section.classList.remove('hidden');
+  }
+
+  // Função para renderizar contatos na administração
+  function renderAdminContacts() {
+    adminContactList.innerHTML = '';
+    contacts.forEach((contact, index) => {
+      const contactCard = document.createElement('div');
+      contactCard.classList.add('contact-card');
+      if (contact.premium) contactCard.classList.add('premium');
+
+      contactCard.innerHTML = `
+        <h3>${contact.nome}</h3>
+        <p>Telefone: ${contact.telefone}</p>
+        <p>Categoria: ${contact.categoria}</p>
+        <button onclick="editContact(${index})">Editar</button>
+        <button onclick="deleteContact(${index})">Excluir</button>
+        ${contact.premium ? `<p>Premium até: ${new Date(contact.premiumUntil).toLocaleDateString()}</p>` : ''}
+      `;
+      adminContactList.appendChild(contactCard);
+    });
+  }
+
+  // Função para editar um contato
+  window.editContact = function (index) {
+    const contact = contacts[index];
+    const novoNome = prompt("Editar nome:", contact.nome);
+    const novoTelefone = prompt("Editar telefone:", contact.telefone);
+    const novaCategoria = prompt("Editar categoria:", contact.categoria);
+    const isPremium = confirm("Tornar este contato premium?");
+    let premiumUntil = null;
+
+    if (isPremium) {
+      const diasPremium = parseInt(prompt("Quantos dias de premium?"));
+      if (!isNaN(diasPremium) && diasPremium > 0) {
+        premiumUntil = new Date();
+        premiumUntil.setDate(premiumUntil.getDate() + diasPremium);
+      }
     }
-  } else {
-    main.classList.add("hide");
-  }
-}
 
-// Função para exibir horários
-function exibirHorarios(horarios, saidaId, chegadaId) {
-  const saida = document.getElementById(saidaId);
-  const chegada = document.getElementById(chegadaId);
-  saida.innerHTML = "";
-  chegada.innerHTML = "";
+    if (novoNome && novoTelefone && novaCategoria) {
+      contacts[index] = {
+        ...contact,
+        nome: novoNome,
+        telefone: novoTelefone,
+        categoria: novaCategoria,
+        premium: isPremium,
+        premiumUntil: premiumUntil,
+      };
+      saveData();
+      renderAdminContacts();
+      renderContacts(contacts);
+    }
+  };
 
-  if (horarios.saida.length > 0) {
-    document.querySelector(`.${saidaId.split("Semana")[0]}`).classList.remove("hide");
-    horarios.saida.forEach((hora) => {
-      const li = document.createElement("li");
-      li.className = "saida-dia";
-      li.textContent = hora;
-      saida.appendChild(li);
+  // Função para excluir um contato
+  window.deleteContact = function (index) {
+    if (confirm("Tem certeza que deseja excluir este contato?")) {
+      contacts.splice(index, 1);
+      saveData();
+      renderAdminContacts();
+      renderContacts(contacts);
+    }
+  };
+
+  // Função para adicionar uma nova categoria
+  categoriaForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const novaCategoria = novaCategoriaInput.value.trim();
+    if (novaCategoria && !categorias.includes(novaCategoria)) {
+      categorias.push(novaCategoria);
+      saveData();
+      renderCategorias();
+      renderCategoriasSelect();
+      novaCategoriaInput.value = '';
+    }
+  });
+
+  // Função para renderizar categorias
+  function renderCategorias() {
+    categoriasList.innerHTML = '';
+    categorias.forEach((categoria, index) => {
+      const li = document.createElement('li');
+      li.textContent = categoria;
+      const deleteButton = document.createElement('button');
+      deleteButton.textContent = 'Excluir';
+      deleteButton.onclick = () => deleteCategoria(index);
+      li.appendChild(deleteButton);
+      categoriasList.appendChild(li);
     });
-  } else {
-    document.querySelector(`.${saidaId.split("Semana")[0]}`).classList.add("hide");
   }
 
-  if (horarios.chegada.length > 0) {
-    horarios.chegada.forEach((hora) => {
-      const li = document.createElement("li");
-      li.className = "chegada-dia";
-      li.textContent = hora;
-      chegada.appendChild(li);
+  // Função para excluir uma categoria
+  function deleteCategoria(index) {
+    if (confirm("Tem certeza que deseja excluir esta categoria?")) {
+      categorias.splice(index, 1);
+      saveData();
+      renderCategorias();
+      renderCategoriasSelect();
+    }
+  }
+
+  // Função para renderizar contatos na listagem
+  function renderContacts(contacts) {
+    contactList.innerHTML = '';
+    const categoriaSelecionada = categoriaFiltro.value;
+    const contatosFiltrados = categoriaSelecionada === "Todas"
+      ? contacts
+      : contacts.filter(contact => contact.categoria === categoriaSelecionada);
+
+    contatosFiltrados.forEach(contact => {
+      const contactCard = document.createElement('div');
+      contactCard.classList.add('contact-card');
+      if (contact.premium && new Date(contact.premiumUntil) > new Date()) {
+        contactCard.classList.add('premium');
+      }
+
+                                    contactCard.innerHTML = `
+        <div class="categoria">${contact.categoria}</div>
+        <h3>${contact.nome}</h3>
+        <p>Telefone: ${contact.telefone}</p>
+        ${contact.premium && new Date(contact.premiumUntil) > new Date()
+          ? `<p>⭐ Premium até: ${new Date(contact.premiumUntil).toLocaleDateString()}</p>`
+          : ''}
+        <button class="whatsapp-share" onclick="shareOnWhatsApp('${contact.telefone}', '${contact.nome}')">
+          <i class="fab fa-whatsapp"></i> Compartilhar
+        </button>
+      `;
+      contactList.appendChild(contactCard);
     });
   }
-}
 
-// Evento para carregar os horários ao selecionar uma rota
-selectHorario.addEventListener("change", () => {
-  const item = parseInt(selectHorario.value);
-  pegaHorario(item);
-});
+  // Função para compartilhar um contato no WhatsApp
+  window.shareOnWhatsApp = function (telefone, nome) {
+    const mensagem = `Contato: ${nome}\nTelefone: ${telefone}`;
+    const url = `https://wa.me/?text=${encodeURIComponent(mensagem)}`;
+    window.open(url, '_blank');
+  };
 
-// Inicializar o select ao carregar a página
-window.addEventListener("load", () => {
-  optionHorarios(); // Preenche o select com as rotas
+  // Função para exportar contatos
+  exportarContatosButton.addEventListener('click', function () {
+    const contatosFormatados = contacts.map(contact => ({
+      Nome: contact.nome,
+      Telefone: contact.telefone,
+      Categoria: contact.categoria,
+      Premium: contact.premium ? `Até ${new Date(contact.premiumUntil).toLocaleDateString()}` : 'Não',
+    }));
+
+    const blob = new Blob([JSON.stringify(contatosFormatados, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'contatos.json';
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+
+  // Função para filtrar contatos por categoria
+  categoriaFiltro.addEventListener('change', function () {
+    renderContacts(contacts);
+  });
+
+  // Função para cadastrar um novo contato
+  cadastroForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const nome = document.getElementById('nome').value;
+    const telefone = document.getElementById('telefone').value;
+    const categoria = document.getElementById('categoria').value;
+    const facebook = document.getElementById('facebook').value;
+    const instagram = document.getElementById('instagram').value;
+    const whatsapp = document.getElementById('whatsapp').value;
+
+    const newContact = {
+      nome,
+      telefone,
+      categoria,
+      redesSociais: {
+        facebook,
+        instagram,
+        whatsapp,
+      },
+      premium: false,
+      premiumUntil: null,
+    };
+
+    contacts.push(newContact);
+    saveData();
+    renderContacts(contacts);
+    cadastroForm.reset();
+    mensagemSucesso.classList.remove('hidden');
+    setTimeout(() => {
+      mensagemSucesso.classList.add('hidden');
+    }, 3000);
+  });
+
+  // Função para filtrar contatos na pesquisa
+  searchInput.addEventListener('input', function () {
+    const searchTerm = searchInput.value.toLowerCase();
+    const filteredContacts = contacts.filter(contact =>
+      contact.nome.toLowerCase().includes(searchTerm) ||
+      contact.telefone.includes(searchTerm) ||
+      contact.categoria.toLowerCase().includes(searchTerm)
+    );
+    renderContacts(filteredContacts);
+  });
+
+  // Renderizar categorias no select ao carregar a página
+  renderCategoriasSelect();
+  // Renderizar contatos ao carregar a página
+  renderContacts(contacts);
 });

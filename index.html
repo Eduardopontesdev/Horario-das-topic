@@ -3,17 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Horário das Topics Camocim e Região</title>
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Horário das Topics Camocim e Região" />
+  <meta property="og:description" content="Site com horários das topics de Camocim e Região" />
+  <meta property="og:site_name" content="horariodastopicscamocimeregiao" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
   <link rel="stylesheet" href="./style.css" />
+  <title>Horário das Topics Camocim e Região</title>
 </head>
 <body>
   <header class="header">
     <h1>Horários das Topics</h1>
     <div class="selecao">
+      <input type="text" id="buscaRota" placeholder="🔍 Digite o nome da rota..." />
       <select name="listaHorarios" id="listaHorarios">
         <option value="0">👉 Escolha o horário da topic 👈</option>
       </select>
     </div>
+    <button id="toggleModo"><i class="fas fa-moon"></i> Modo Escuro</button>
   </header>
 
   <main class="main hide">
@@ -22,47 +29,50 @@
         <div class="rota-valor">
           <h1 id="rota"></h1>
           <span id="valor" class="valor"></span>
+          <button id="favoritar"><i class="fas fa-star"></i> Favoritar</button>
+          <button id="compartilhar"><i class="fas fa-share"></i> Compartilhar</button>
         </div>
         <div class="semana">
-          <span class="rota">Segunda a Sexta</span>
+          <span class="rota"><i class="fas fa-calendar-week"></i> Segunda a Sexta</span>
           <div class="container-horarios">
             <div class="saida-semana">
-              <p class="span-saida">Saída de <span id="saida-rota"></span></p>
+              <p class="span-saida"><i class="fas fa-bus"></i> Saída de <span id="saida-rota"></span></p>
               <ul class="saida" id="saidaSemana"></ul>
             </div>
             <div class="chegada-semana">
-              <p class="span-chegada">Chegada em <span id="chegada-rota"></span></p>
+              <p class="span-chegada"><i class="fas fa-flag-checkered"></i> Chegada em <span id="chegada-rota"></span></p>
               <ul class="chegada" id="chegadaSemana"></ul>
             </div>
           </div>
         </div>
         <div class="sabado hide">
-          <span class="rota">Sábado</span>
+          <span class="rota"><i class="fas fa-calendar-day"></i> Sábado</span>
           <div class="container-horarios">
             <div class="saida-sabado">
-              <p class="span-saida">Saída de <span id="saida-rota-s"></span></p>
+              <p class="span-saida"><i class="fas fa-bus"></i> Saída de <span id="saida-rota-s"></span></p>
               <ul class="saida" id="saidaSabado"></ul>
             </div>
             <div class="chegada-sabado">
-              <p class="span-chegada">Chegada em <span id="chegada-rota-s"></span></p>
+              <p class="span-chegada"><i class="fas fa-flag-checkered"></i> Chegada em <span id="chegada-rota-s"></span></p>
               <ul class="chegada" id="chegadaSabado"></ul>
             </div>
           </div>
         </div>
         <div class="domingo hide">
-          <span class="rota">Domingo</span>
+          <span class="rota"><i class="fas fa-calendar-day"></i> Domingo</span>
           <div class="container-horarios">
             <div class="saida-domingo">
-              <p class="span-saida">Saída de <span id="saida-rota-d"></span></p>
+              <p class="span-saida"><i class="fas fa-bus"></i> Saída de <span id="saida-rota-d"></span></p>
               <ul class="saida" id="saidaDomingo"></ul>
             </div>
             <div class="chegada-domingo">
-              <p class="span-chegada">Chegada em <span id="chegada-rota-d"></span></p>
+              <p class="span-chegada"><i class="fas fa-flag-checkered"></i> Chegada em <span id="chegada-rota-d"></span></p>
               <ul class="chegada" id="chegadaDomingo"></ul>
             </div>
           </div>
         </div>
       </div>
+      <div id="map" class="map hide"></div>
     </div>
   </main>
 
@@ -77,5 +87,6 @@
   </footer>
 
   <script src="./script.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=SUA_CHAVE_API&callback=initMap" async defer></script>
 </body>
 </html>

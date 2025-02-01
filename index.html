@@ -1,158 +1,92 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="Horario das Topics Camocim e Região" />
-    <meta
-      property="og:description"
-      content="Site com horarios das topics de Camocim e Região"
-    />
-    <meta property="og:site_name" content="horariodastopicscamocimeregiao" />
-    <link rel="stylesheet" href="./style.css" />
-    <title>Horario das Topics Camocim e Região</title>
-  </head>
-  <body>
-    <header class="header">
-      <div class="selecao" id="selecao">
-        <select name="listaHorarios" id="listaHorarios">
-          <option value="0" id="option-horario">👉 Clique aqui e escolha o <strong>Horario</strong> da topic 👈</option>
-        </select>
-      </div>
-    </header>
-    <main class="main hide">
-      <div class="container">
-        <div class="resultado hide">
-          <div class="rota-valor">
-            <h1 id="rota"></h1>
-            <span></span><span id="valor" class="valor"></span>
-          </div>
-          <div class="semana">
-            <span class="rota">Segunda a Sexta</span>
-            <div class="container-horarios">
-              <div class="saida-semana">
-                <p class="span-saida">saida de <span id="saida-rota"></span></p>
-                <ul class="saida" id="saidaSemana"></ul>
-              </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Horário das Topics Camocim e Região" />
+  <meta property="og:description" content="Site com horários das topics de Camocim e Região" />
+  <meta property="og:site_name" content="horariodastopicscamocimeregiao" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <link rel="stylesheet" href="./style.css" />
+  <title>Horário das Topics Camocim e Região</title>
+</head>
+<body>
+  <header class="header">
+    <h1>Horários das Topics</h1>
+    <div class="selecao">
+      <input type="text" id="buscaRota" placeholder="🔍 Digite o nome da rota..." />
+      <select name="listaHorarios" id="listaHorarios">
+        <option value="0">👉 Escolha o horário da topic 👈</option>
+      </select>
+    </div>
+    <button id="toggleModo"><i class="fas fa-moon"></i> Modo Escuro</button>
+  </header>
 
-              <div class="passada-semana hide">
-                <p class="span-passada">Passa em <span id="passaem"></span></p>
-                <ul class="saida" id="passadaSemana"></ul>
-              </div>
-              <div class="passada-semana2 hide">
-                <p class="span-passada">Passa em <span id="passaem2"></span></p>
-                <ul class="saida" id="passadaSemana2"></ul>
-              </div>
-              <div class="passada-semana3 hide">
-                <p class="span-passada">Passa em <span id="passaem3"></span></p>
-                <ul class="saida" id="passadaSemana3"></ul>
-              </div>
-              <div class="passada-semana4 hide">
-                <p class="span-passada">Passa em <span id="passaem4"></span></p>
-                <ul class="saida" id="passadaSemana4"></ul>
-              </div>
-
-              <div class="chegada-semana">
-                <p class="span-chegada">
-                  chegada em <span id="chegada-rota"></span>
-                </p>
-                <ul class="chegada" id="chegadaSemana"></ul>
-              </div>
+  <main class="main hide">
+    <div class="container">
+      <div class="resultado hide">
+        <div class="rota-valor">
+          <h1 id="rota"></h1>
+          <span id="valor" class="valor"></span>
+          <button id="favoritar"><i class="fas fa-star"></i> Favoritar</button>
+          <button id="compartilhar"><i class="fas fa-share"></i> Compartilhar</button>
+        </div>
+        <div class="semana">
+          <span class="rota"><i class="fas fa-calendar-week"></i> Segunda a Sexta</span>
+          <div class="container-horarios">
+            <div class="saida-semana">
+              <p class="span-saida"><i class="fas fa-bus"></i> Saída de <span id="saida-rota"></span></p>
+              <ul class="saida" id="saidaSemana"></ul>
+            </div>
+            <div class="chegada-semana">
+              <p class="span-chegada"><i class="fas fa-flag-checkered"></i> Chegada em <span id="chegada-rota"></span></p>
+              <ul class="chegada" id="chegadaSemana"></ul>
             </div>
           </div>
-          <div class="sabado">
-            <span class="rota">Sábado</span>
-            <div class="container-horarios">
-              <div class="saida-sabado">
-                <p class="span-saida">
-                  saida de <span id="saida-rota-s"></span>
-                </p>
-                <ul class="saida" id="saidaSabado"></ul>
-              </div>
-              <div class="passada-sabado hide">
-                <p class="span-passada">Passa em <span id="passaemS"></span></p>
-                <ul class="saida" id="passadaSabado"></ul>
-              </div>
-              <div class="passada-sabado2 hide">
-                <p class="span-passada">
-                  Passa em <span id="passaemS2"></span>
-                </p>
-                <ul class="saida" id="passadaSabado2"></ul>
-              </div>
-              <div class="passada-sabado3 hide">
-                <p class="span-passada">
-                  Passa em <span id="passaemS3"></span>
-                </p>
-                <ul class="saida" id="passadaSabado3"></ul>
-              </div>
-              <div class="passada-sabado4 hide">
-                <p class="span-passada">
-                  Passa em <span id="passaemS4"></span>
-                </p>
-                <ul class="saida" id="passadaSabado4"></ul>
-              </div>
-              <div class="chegada-sabado">
-                <p class="span-chegada">
-                  chegada em <span id="chegada-rota-s"></span>
-                </p>
-                <ul class="chegada" id="chegadaSabado"></ul>
-              </div>
+        </div>
+        <div class="sabado hide">
+          <span class="rota"><i class="fas fa-calendar-day"></i> Sábado</span>
+          <div class="container-horarios">
+            <div class="saida-sabado">
+              <p class="span-saida"><i class="fas fa-bus"></i> Saída de <span id="saida-rota-s"></span></p>
+              <ul class="saida" id="saidaSabado"></ul>
+            </div>
+            <div class="chegada-sabado">
+              <p class="span-chegada"><i class="fas fa-flag-checkered"></i> Chegada em <span id="chegada-rota-s"></span></p>
+              <ul class="chegada" id="chegadaSabado"></ul>
             </div>
           </div>
-          <div class="domingo hide">
-            <span class="rota">Domingo</span>
-            <div class="container-horarios">
-              <div class="saida-domingo">
-                <p class="span-saida">
-                  saida de <span id="saida-rota-d"></span>
-                </p>
-                <ul class="saida" id="saidaDomingo"></ul>
-              </div>
-              <div class="passada-domingo hide">
-                <p class="span-passada">Passa em <span id="passaemD"></span></p>
-                <ul class="saida" id="passadaDomingo"></ul>
-              </div>
-              <div class="passada-domingo2 hide">
-                <p class="span-passada">
-                  Passa em <span id="passaemD2"></span>
-                </p>
-                <ul class="saida" id="passadaDomingo2"></ul>
-              </div>
-              <div class="passada-domingo3 hide">
-                <p class="span-passada">
-                  Passa em <span id="passaemD3"></span>
-                </p>
-                <ul class="saida" id="passadaDomingo3"></ul>
-              </div>
-              <div class="passada-domingo4 hide">
-                <p class="span-passada">
-                  Passa em <span id="passaemD4"></span>
-                </p>
-                <ul class="saida" id="passadaDomingo4"></ul>
-              </div>
-              <div class="chegada-domingo">
-                <p class="span-chegada">
-                  chegada em <span id="chegada-rota-d"></span>
-                </p>
-                <ul class="chegada" id="chegadaDomingo"></ul>
-              </div>
+        </div>
+        <div class="domingo hide">
+          <span class="rota"><i class="fas fa-calendar-day"></i> Domingo</span>
+          <div class="container-horarios">
+            <div class="saida-domingo">
+              <p class="span-saida"><i class="fas fa-bus"></i> Saída de <span id="saida-rota-d"></span></p>
+              <ul class="saida" id="saidaDomingo"></ul>
+            </div>
+            <div class="chegada-domingo">
+              <p class="span-chegada"><i class="fas fa-flag-checkered"></i> Chegada em <span id="chegada-rota-d"></span></p>
+              <ul class="chegada" id="chegadaDomingo"></ul>
             </div>
           </div>
         </div>
       </div>
-    </main>
-    <footer>
-      <!-- patrocinio    -->
-      <div class="patrocinio">
-        <p>Precisou de uma corrida, chama a Top Passageiros.</p>
+      <div id="map" class="map hide"></div>
+    </div>
+  </main>
 
-        <!-- <span onclick="enviaMensagem()">88996328842</span> -->
-         <a href="https://bit.ly/toppassageiroscliente" target="_blank"><img src="./src/flyer.png" id="img-patrocinador" alt="imagem do patrocinador"/></a>
-         <span class="clique-aqui">*clique na imagem para baixar.</span>
-        <p>Patrocinador excluivo.</p>
-      </div>
-    </footer>
-    <script src="./script.js"></script>
-  </body>
+  <footer>
+    <div class="patrocinio">
+      <p>Precisou de uma corrida? Chame a Top Passageiros!</p>
+      <a href="https://bit.ly/toppassageiroscliente" target="_blank">
+        <img src="./assets/images/patrocinador-1.png" id="img-patrocinador" alt="Imagem do patrocinador" />
+      </a>
+      <p>Patrocinador exclusivo.</p>
+    </div>
+  </footer>
+
+  <script src="./script.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=SUA_CHAVE_API&callback=initMap" async defer></script>
+</body>
 </html>

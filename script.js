@@ -20,12 +20,127 @@ document.addEventListener('DOMContentLoaded', function () {
   const exportarContatosButton = document.getElementById('exportar-contatos');
 
   let contacts = JSON.parse(localStorage.getItem('contacts')) || [
+  
   {
-    "Nome": "Eduardo Pontes ",
-    "Telefone": "(88)99632-8842",
-    "Categoria": "Desenvolver front End",
-    "Premium": "Até 02/02/2025"
-  }
+    nome: "Hospital Municipal de Camocim",
+    telefone: "(88) 3621-1234",
+    categoria: "Saúde",
+    redesSociais: {
+      facebook: "",
+      instagram: "",
+      whatsapp: "",
+    },
+    premium: false,
+    premiumUntil: null,
+  },
+  {
+    nome: "Polícia Militar",
+    telefone: "190",
+    categoria: "Emergência",
+    redesSociais: {
+      facebook: "",
+      instagram: "",
+      whatsapp: "",
+    },
+    premium: false,
+    premiumUntil: null,
+  },
+  {
+    nome: "Bombeiros",
+    telefone: "193",
+    categoria: "Emergência",
+    redesSociais: {
+      facebook: "",
+      instagram: "",
+      whatsapp: "",
+    },
+    premium: false,
+    premiumUntil: null,
+  },
+  {
+    nome: "Prefeitura Municipal de Camocim",
+    telefone: "(88) 3621-0000",
+    categoria: "Serviços Públicos",
+    redesSociais: {
+      facebook: "https://facebook.com/prefeituracamocim",
+      instagram: "https://instagram.com/prefeituracamocim",
+      whatsapp: "",
+    },
+    premium: false,
+    premiumUntil: null,
+  },
+  {
+    nome: "Rodoviária de Camocim",
+    telefone: "(88) 3621-4567",
+    categoria: "Transporte",
+    redesSociais: {
+      facebook: "",
+      instagram: "",
+      whatsapp: "",
+    },
+    premium: false,
+    premiumUntil: null,
+  },
+  {
+    nome: "Restaurante Sabor do Mar",
+    telefone: "(88) 3621-7890",
+    categoria: "Restaurantes",
+    redesSociais: {
+      facebook: "https://facebook.com/sabordomarcamocim",
+      instagram: "https://instagram.com/sabordomarcamocim",
+      whatsapp: "(88) 98765-4321",
+    },
+    premium: true,
+    premiumUntil: "2025-12-31",
+  },
+  {
+    nome: "Posto de Combustível Shell",
+    telefone: "(88) 3621-2345",
+    categoria: "Transporte",
+    redesSociais: {
+      facebook: "",
+      instagram: "",
+      whatsapp: "",
+    },
+    premium: false,
+    premiumUntil: null,
+  },
+  {
+    nome: "Escola Municipal João da Silva",
+    telefone: "(88) 3621-6789",
+    categoria: "Educação",
+    redesSociais: {
+      facebook: "",
+      instagram: "",
+      whatsapp: "",
+    },
+    premium: false,
+    premiumUntil: null,
+  },
+  {
+    nome: "Praia de Maceió (Barraca do Peixe)",
+    telefone: "(88) 98765-1234",
+    categoria: "Lazer",
+    redesSociais: {
+      facebook: "",
+      instagram: "",
+      whatsapp: "(88) 98765-1234",
+    },
+    premium: true,
+    premiumUntil: "2025-12-31",
+  },
+  {
+    nome: "Mercado Central de Camocim",
+    telefone: "(88) 3621-3456",
+    categoria: "Comércio",
+    redesSociais: {
+      facebook: "https://facebook.com/mercadocentralcamocim",
+      instagram: "https://instagram.com/mercadocentralcamocim",
+      whatsapp: "",
+    },
+    premium: false,
+    premiumUntil: null,
+  },
 ];
   let categorias = JSON.parse(localStorage.getItem('categorias')) || ["Saúde", "Emergência", "Transporte", "Restaurantes", "Educação", "Lazer", "Comércio"];
 

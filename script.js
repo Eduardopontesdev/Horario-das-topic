@@ -1,6 +1,8 @@
-const topics = [
-  // ... (insira o array de topics fornecido anteriormente)
-];
+    option.textContent = topic.rota;
+
+    selectHorario.appendChild(option);
+  });
+}
 
 const selectHorario = document.getElementById("listaHorarios");
 const buscaRota = document.getElementById("buscaRota");

@@ -8,12 +8,6 @@
 body {
   background-color: #f4f4f4;
   color: #333;
-  transition: background-color 0.3s, color 0.3s;
-}
-
-body.modo-escuro {
-  background-color: #121212;
-  color: #ffffff;
 }
 
 .header {
@@ -27,24 +21,13 @@ body.modo-escuro {
   margin: 20px 0;
 }
 
-#buscaRota, #listaHorarios {
+select {
   padding: 10px;
   font-size: 16px;
   border: 2px solid #00796b;
   border-radius: 8px;
-  margin: 5px;
-  width: 80%;
-  max-width: 400px;
-}
-
-#toggleModo {
-  padding: 10px 20px;
-  background-color: #00796b;
-  color: white;
-  border: none;
-  border-radius: 8px;
+  background-color: white;
   cursor: pointer;
-  margin-top: 10px;
 }
 
 .main {
@@ -96,19 +79,6 @@ body.modo-escuro {
   color: #00796b;
   font-weight: bold;
   text-align: center;
-}
-
-.map {
-  height: 300px;
-  margin-top: 20px;
-  border-radius: 8px;
-}
-
-.patrocinio {
-  text-align: center;
-  padding: 20px;
-  background-color: #009688;
-  color: white;
 }
 
 .hide {

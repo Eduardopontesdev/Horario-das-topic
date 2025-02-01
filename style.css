@@ -1,116 +1,272 @@
+/* Reset básico */
 * {
-  padding: 0;
   margin: 0;
+  padding: 0;
   box-sizing: border-box;
-  font-family: 'Montserrat', sans-serif;
 }
 
 body {
+  font-family: Arial, sans-serif;
   background-color: #f4f4f4;
   color: #333;
-  transition: background-color 0.3s, color 0.3s;
+  line-height: 1.6;
 }
 
-body.modo-escuro {
-  background-color: #121212;
-  color: #ffffff;
-}
-
-.header {
+header {
+  background-color: #333;
+  color: #fff;
+  padding: 1rem 0;
   text-align: center;
+}
+
+header h1 {
+  margin-bottom: 0.5rem;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+}
+
+nav ul li {
+  display: inline;
+  margin: 0 10px;
+}
+
+nav ul li a {
+  color: #fff;
+  text-decoration: none;
+}
+
+main {
   padding: 20px;
-  background-color: #009688;
-  color: white;
 }
 
-.selecao {
-  margin: 20px 0;
+section {
+  margin-bottom: 20px;
 }
 
-#buscaRota, #listaHorarios {
+.hidden {
+  display: none;
+}
+
+#search {
+  width: 100%;
   padding: 10px;
-  font-size: 16px;
-  border: 2px solid #00796b;
-  border-radius: 8px;
-  margin: 5px;
-  width: 80%;
-  max-width: 400px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
-#toggleModo {
-  padding: 10px 20px;
-  background-color: #00796b;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  margin-top: 10px;
+#filtro-categorias {
+  margin-bottom: 20px;
 }
 
-.main {
-  padding: 20px;
+#filtro-categorias label {
+  font-weight: bold;
 }
 
-.resultado {
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
+#filtro-categorias select {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+#contact-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.contact-card {
+  background-color: #fff;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  position: relative;
 }
 
-.rota-valor {
+.contact-card.premium {
+  border: 2px solid gold;
+  background-color: #fff8e1;
+}
+
+.contact-card.premium h3::after {
+  content: " ⭐";
+  color: gold;
+}
+
+.contact-card h3 {
+  margin-bottom: 10px;
+}
+
+.contact-card p {
+  margin: 5px 0;
+}
+
+.contact-card .categoria {
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.contact-card .whatsapp-share {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background-color: #25d366;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.contact-card .whatsapp-share:hover {
+  background-color: #128c7e;
+}
+
+#paginacao {
+  text-align: center;
+  margin-top: 20px;
+}
+
+#paginacao button {
+  padding: 10px 15px;
+  margin: 0 5px;
+  border: none;
+  background-color: #333;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#paginacao button:hover {
+  background-color: #555;
+}
+
+#cadastro-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#cadastro-form label {
+  font-weight: bold;
+}
+
+#cadastro-form input,
+#cadastro-form select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+#cadastro-form button {
+  padding: 10px;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#cadastro-form button:hover {
+  background-color: #555;
+}
+
+.redes-sociais {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  margin-bottom: 20px;
+  gap: 10px;
 }
 
-.rota-valor h1 {
-  font-size: 24px;
+.redes-sociais i {
+  font-size: 1.2rem;
 }
 
-.valor {
-  font-size: 20px;
-  color: #009688;
-}
-
-.semana, .sabado, .domingo {
-  margin-bottom: 20px;
-}
-
-.container-horarios {
-  display: flex;
-  justify-content: space-around;
-  margin-top: 10px;
-}
-
-.saida, .chegada {
-  list-style: none;
-}
-
-.saida-dia, .chegada-dia {
-  padding: 8px;
-  margin: 4px;
-  border-radius: 6px;
-  background-color: #e0f2f1;
-  color: #00796b;
-  font-weight: bold;
+#mensagem-sucesso {
+  background-color: #d4edda;
+  color: #155724;
+  padding: 10px;
+  border: 1px solid #c3e6cb;
+  border-radius: 5px;
+  margin-top: 20px;
   text-align: center;
 }
 
-.map {
-  height: 300px;
-  margin-top: 20px;
-  border-radius: 8px;
-}
-
-.patrocinio {
+footer {
   text-align: center;
   padding: 20px;
-  background-color: #009688;
-  color: white;
+  background-color: #333;
+  color: #fff;
+  margin-top: 20px;
 }
 
-.hide {
-  display: none;
+footer a {
+  color: #fff;
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+/* Estilos para a administração */
+#administracao {
+  margin-top: 20px;
+}
+
+#admin-options {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+#admin-options button {
+  padding: 10px 15px;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#admin-options button:hover {
+  background-color: #555;
+}
+
+#editar-contatos-section,
+#gerenciar-categorias-section {
+  margin-top: 20px;
+}
+
+#categorias-list {
+  list-style: none;
+  padding: 0;
+}
+
+#categorias-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+#categorias-list li button {
+  background-color: #ff4d4d;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#categorias-list li button:hover {
+  background-color: #cc0000;
 }

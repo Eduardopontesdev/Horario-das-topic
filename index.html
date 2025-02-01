@@ -1,92 +1,104 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="Horário das Topics Camocim e Região" />
-  <meta property="og:description" content="Site com horários das topics de Camocim e Região" />
-  <meta property="og:site_name" content="horariodastopicscamocimeregiao" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-  <link rel="stylesheet" href="./style.css" />
-  <title>Horário das Topics Camocim e Região</title>
-</head>
-<body>
-  <header class="header">
-    <h1>Horários das Topics</h1>
-    <div class="selecao">
-      <input type="text" id="buscaRota" placeholder="🔍 Digite o nome da rota..." />
-      <select name="listaHorarios" id="listaHorarios">
-        <option value="0">👉 Escolha o horário da topic 👈</option>
-      </select>
-    </div>
-    <button id="toggleModo"><i class="fas fa-moon"></i> Modo Escuro</button>
-  </header>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Telefones Úteis de Camocim</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Telefones Úteis de Camocim</h1>
+      <nav>
+        <ul>
+          <li><a href="#" id="home-link">Início</a></li>
+          <li><a href="#" id="cadastro-link">Cadastrar Contato</a></li>
+          <li><a href="#" id="admin-link">Administração</a></li>
+        </ul>
+      </nav>
+    </header>
 
-  <main class="main hide">
-    <div class="container">
-      <div class="resultado hide">
-        <div class="rota-valor">
-          <h1 id="rota"></h1>
-          <span id="valor" class="valor"></span>
-          <button id="favoritar"><i class="fas fa-star"></i> Favoritar</button>
-          <button id="compartilhar"><i class="fas fa-share"></i> Compartilhar</button>
+    <main>
+      <!-- Tela de Listagem -->
+      <section id="listagem">
+        <input type="text" id="search" placeholder="Pesquisar..." />
+        <div id="filtro-categorias">
+          <label for="categoria-filtro">Filtrar por Categoria:</label>
+          <select id="categoria-filtro">
+            <option value="Todas">Todas</option>
+          </select>
         </div>
-        <div class="semana">
-          <span class="rota"><i class="fas fa-calendar-week"></i> Segunda a Sexta</span>
-          <div class="container-horarios">
-            <div class="saida-semana">
-              <p class="span-saida"><i class="fas fa-bus"></i> Saída de <span id="saida-rota"></span></p>
-              <ul class="saida" id="saidaSemana"></ul>
-            </div>
-            <div class="chegada-semana">
-              <p class="span-chegada"><i class="fas fa-flag-checkered"></i> Chegada em <span id="chegada-rota"></span></p>
-              <ul class="chegada" id="chegadaSemana"></ul>
-            </div>
-          </div>
+        <div id="contact-list"></div>
+        <div id="paginacao">
+          <button class="pagina">1</button>
+          <button class="pagina">2</button>
+          <button class="pagina">3</button>
         </div>
-        <div class="sabado hide">
-          <span class="rota"><i class="fas fa-calendar-day"></i> Sábado</span>
-          <div class="container-horarios">
-            <div class="saida-sabado">
-              <p class="span-saida"><i class="fas fa-bus"></i> Saída de <span id="saida-rota-s"></span></p>
-              <ul class="saida" id="saidaSabado"></ul>
-            </div>
-            <div class="chegada-sabado">
-              <p class="span-chegada"><i class="fas fa-flag-checkered"></i> Chegada em <span id="chegada-rota-s"></span></p>
-              <ul class="chegada" id="chegadaSabado"></ul>
-            </div>
-          </div>
-        </div>
-        <div class="domingo hide">
-          <span class="rota"><i class="fas fa-calendar-day"></i> Domingo</span>
-          <div class="container-horarios">
-            <div class="saida-domingo">
-              <p class="span-saida"><i class="fas fa-bus"></i> Saída de <span id="saida-rota-d"></span></p>
-              <ul class="saida" id="saidaDomingo"></ul>
-            </div>
-            <div class="chegada-domingo">
-              <p class="span-chegada"><i class="fas fa-flag-checkered"></i> Chegada em <span id="chegada-rota-d"></span></p>
-              <ul class="chegada" id="chegadaDomingo"></ul>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div id="map" class="map hide"></div>
-    </div>
-  </main>
+      </section>
 
-  <footer>
-    <div class="patrocinio">
-      <p>Precisou de uma corrida? Chame a Top Passageiros!</p>
-      <a href="https://bit.ly/toppassageiroscliente" target="_blank">
-        <img src="./assets/images/patrocinador-1.png" id="img-patrocinador" alt="Imagem do patrocinador" />
-      </a>
-      <p>Patrocinador exclusivo.</p>
-    </div>
-  </footer>
+      <!-- Tela de Cadastro -->
+      <section id="cadastro" class="hidden">
+        <h2>Cadastrar Novo Contato</h2>
+        <form id="cadastro-form">
+          <label for="nome">Nome:</label>
+          <input type="text" id="nome" required />
 
-  <script src="./script.js"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=SUA_CHAVE_API&callback=initMap" async defer></script>
-</body>
-</html>
+          <label for="telefone">Telefone:</label>
+          <input type="text" id="telefone" required />
+
+          <label for="categoria">Categoria:</label>
+          <select id="categoria" required>
+            <!-- Categorias serão preenchidas dinamicamente -->
+          </select>
+
+          <label for="redes-sociais">Redes Sociais (opcional):</label>
+          <div class="redes-sociais">
+            <input type="text" id="facebook" placeholder="Facebook">
+            <i class="fab fa-facebook"></i>
+            <input type="text" id="instagram" placeholder="Instagram">
+            <i class="fab fa-instagram"></i>
+            <input type="text" id="whatsapp" placeholder="WhatsApp">
+            <i class="fab fa-whatsapp"></i>
+          </div>
+          <button type="submit">Salvar</button>
+        </form>
+
+        <div id="mensagem-sucesso" class="hidden">Contato cadastrado com sucesso!</div>
+      </section>
+
+      <!-- Tela de Administração -->
+      <section id="administracao" class="hidden">
+        <h2>Administração</h2>
+        <div id="admin-options">
+          <button id="editar-contatos">Editar Contatos</button>
+          <button id="gerenciar-categorias">Gerenciar Categorias</button>
+          <button id="exportar-contatos">Exportar Contatos</button>
+        </div>
+
+        <!-- Edição de Contatos -->
+        <div id="editar-contatos-section" class="hidden">
+          <h3>Editar Contatos</h3>
+          <div id="admin-contact-list"></div>
+        </div>
+
+        <!-- Gerenciamento de Categorias -->
+        <div id="gerenciar-categorias-section" class="hidden">
+          <h3>Gerenciar Categorias</h3>
+          <form id="categoria-form">
+            <input type="text" id="nova-categoria" placeholder="Nova Categoria" required />
+            <button type="submit">Adicionar Categoria</button>
+          </form>
+          <ul id="categorias-list"></ul>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Telefones Úteis de Camocim</p>
+        <p>Criado por <a href="https://seusite.com" target="_blank">Seu Nome</a></p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+            </html>

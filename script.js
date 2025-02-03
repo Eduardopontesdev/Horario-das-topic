@@ -22,164 +22,75 @@ document.addEventListener('DOMContentLoaded', function () {
   const premiumLink = document.getElementById('premium-link');
   const premiumSection = document.getElementById('premium');
 
-
-
-  
-  const contatosCamocim = [
-    // ... (seus contatos aqui)
-  ];
-
-  let contacts = JSON.parse(localStorage.getItem('contacts')) || contatosCamocim;
-  let categorias = JSON.parse(localStorage.getItem('categorias')) || ["Saúde", "Emergência", "Serviços Públicos", "Restaurantes"];
+  const API_URL = 'http://localhost:3000/contatos'; // Substitua pela URL da sua API
   const contatosPorPagina = 8; // Contatos por página
   let paginaAtual = 1; // Página atual
+  let contacts = []; // Lista de contatos carregada da API
 
-  // Função para salvar dados no localStorage
-  function saveData() {
-    localStorage.setItem('contacts', JSON.stringify(contacts));
-    localStorage.setItem('categorias', JSON.stringify(categorias));
-  }
-
-  // Função para renderizar categorias no select
-  function renderCategoriasSelect() {
-    const options = categorias.map(cat => `<option value="${cat}">${cat}</option>`).join('');
-    categoriaSelect.innerHTML = options;
-    categoriaFiltro.innerHTML = `<option value="Todas">Todas</option>${options}`;
-  }
-
-  // Função para alternar entre as seções
-  homeLink.addEventListener('click', function (e) {
-    e.preventDefault();
-    showSection(listagemSection);
-    renderContacts(contacts);
-  });
-
-  cadastroLink.addEventListener('click', function (e) {
-    e.preventDefault();
-    showSection(cadastroSection);
-  });
-
-  adminLink.addEventListener('click', function (e) {
-    e.preventDefault();
-    showSection(administracaoSection);
-  });
-
-  document.getElementById('editar-contatos').addEventListener('click', function () {
-    editarContatosSection.classList.remove('hidden');
-    gerenciarCategoriasSection.classList.add('hidden');
-    renderAdminContacts();
-  });
-
-  document.getElementById('gerenciar-categorias').addEventListener('click', function () {
-    gerenciarCategoriasSection.classList.remove('hidden');
-    editarContatosSection.classList.add('hidden');
-    renderCategorias();
-  });
-
-  // Função para exibir uma seção e ocultar as outras
-  function showSection(section) {
-    listagemSection.classList.add('hidden');
-    cadastroSection.classList.add('hidden');
-    administracaoSection.classList.add('hidden');
-    section.classList.remove('hidden');
-  }
-
-  // Função para renderizar contatos na administração
-  function renderAdminContacts() {
-    adminContactList.innerHTML = '';
-    contacts.forEach((contact, index) => {
-      const contactCard = document.createElement('div');
-      contactCard.classList.add('contact-card');
-      if (contact.premium) contactCard.classList.add('premium');
-
-      contactCard.innerHTML = `
-        <h3>${contact.nome}</h3>
-        <p>Telefone: ${contact.telefone}</p>
-        <p>Categoria: ${contact.categoria}</p>
-        <button onclick="editContact(${index})">Editar</button>
-        <button onclick="deleteContact(${index})">Excluir</button>
-        ${contact.premium ? `<p>Premium até: ${new Date(contact.premiumUntil).toLocaleDateString()}</p>` : ''}
-      `;
-      adminContactList.appendChild(contactCard);
-    });
-  }
-
-  // Função para editar um contato
-  window.editContact = function (index) {
-    const contact = contacts[index];
-    const novoNome = prompt("Editar nome:", contact.nome);
-    const novoTelefone = prompt("Editar telefone:", contact.telefone);
-    const novaCategoria = prompt("Editar categoria:", contact.categoria);
-    const isPremium = confirm("Tornar este contato premium?");
-    let premiumUntil = null;
-
-    if (isPremium) {
-      const diasPremium = parseInt(prompt("Quantos dias de premium?"));
-      if (!isNaN(diasPremium) && diasPremium > 0) {
-        premiumUntil = new Date();
-        premiumUntil.setDate(premiumUntil.getDate() + diasPremium);
-      }
-    }
-
-    if (novoNome && novoTelefone && novaCategoria) {
-      contacts[index] = {
-        ...contact,
-        nome: novoNome,
-        telefone: novoTelefone,
-        categoria: novaCategoria,
-        premium: isPremium,
-        premiumUntil: premiumUntil,
-      };
-      saveData();
-      renderAdminContacts();
+  // Função para buscar contatos da API
+  async function fetchContacts() {
+    try {
+      const response = await fetch(`${API_URL}/contacts`);
+      if (!response.ok) throw new Error('Erro ao carregar contatos');
+      contacts = await response.json();
       renderContacts(contacts);
+    } catch (error) {
+      console.error('Erro:', error);
+      alert('Erro ao carregar contatos. Tente novamente.');
     }
-  };
-
-  // Função para excluir um contato
-  window.deleteContact = function (index) {
-    if (confirm("Tem certeza que deseja excluir este contato?")) {
-      contacts.splice(index, 1);
-      saveData();
-      renderAdminContacts();
-      renderContacts(contacts);
-    }
-  };
-
-  // Função para adicionar uma nova categoria
-  categoriaForm.addEventListener('submit', function (e) {
-    e.preventDefault();
-    const novaCategoria = novaCategoriaInput.value.trim();
-    if (novaCategoria && !categorias.includes(novaCategoria)) {
-      categorias.push(novaCategoria);
-      saveData();
-      renderCategorias();
-      renderCategoriasSelect();
-      novaCategoriaInput.value = '';
-    }
-  });
-
-  // Função para renderizar categorias
-  function renderCategorias() {
-    categoriasList.innerHTML = '';
-    categorias.forEach((categoria, index) => {
-      const li = document.createElement('li');
-      li.textContent = categoria;
-      const deleteButton = document.createElement('button');
-      deleteButton.textContent = 'Excluir';
-      deleteButton.onclick = () => deleteCategoria(index);
-      li.appendChild(deleteButton);
-      categoriasList.appendChild(li);
-    });
   }
 
-  // Função para excluir uma categoria
-  function deleteCategoria(index) {
-    if (confirm("Tem certeza que deseja excluir esta categoria?")) {
-      categorias.splice(index, 1);
-      saveData();
-      renderCategorias();
-      renderCategoriasSelect();
+  // Função para adicionar um contato via API
+  async function addContact(newContact) {
+    try {
+      const response = await fetch(`${API_URL}/contacts`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newContact),
+      });
+      if (!response.ok) throw new Error('Erro ao adicionar contato');
+      const data = await response.json();
+      contacts.push(data); // Adiciona o novo contato à lista local
+      renderContacts(contacts);
+      mensagemSucesso.classList.remove('hidden');
+      setTimeout(() => mensagemSucesso.classList.add('hidden'), 3000);
+    } catch (error) {
+      console.error('Erro:', error);
+      alert('Erro ao adicionar contato. Tente novamente.');
+    }
+  }
+
+  // Função para atualizar um contato via API
+  async function updateContact(id, updatedContact) {
+    try {
+      const response = await fetch(`${API_URL}/contacts/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedContact),
+      });
+      if (!response.ok) throw new Error('Erro ao atualizar contato');
+      const data = await response.json();
+      const index = contacts.findIndex(contact => contact.id === id);
+      if (index !== -1) contacts[index] = data; // Atualiza o contato na lista local
+      renderContacts(contacts);
+    } catch (error) {
+      console.error('Erro:', error);
+      alert('Erro ao atualizar contato. Tente novamente.');
+    }
+  }
+
+  // Função para excluir um contato via API
+  async function deleteContact(id) {
+    try {
+      const response = await fetch(`${API_URL}/contacts/${id}`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) throw new Error('Erro ao excluir contato');
+      contacts = contacts.filter(contact => contact.id !== id); // Remove o contato da lista local
+      renderContacts(contacts);
+    } catch (error) {
+      console.error('Erro:', error);
+      alert('Erro ao excluir contato. Tente novamente.');
     }
   }
 
@@ -251,37 +162,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  // Função para compartilhar um contato no WhatsApp
-  window.shareOnWhatsApp = function (telefone, nome) {
-    const mensagem = `Contato: ${nome}\nTelefone: ${telefone}`;
-    const url = `https://wa.me/?text=${encodeURIComponent(mensagem)}`;
-    window.open(url, '_blank');
-  };
-
-  // Função para exportar contatos
-  exportarContatosButton.addEventListener('click', function () {
-    const contatosFormatados = contacts.map(contact => ({
-      Nome: contact.nome,
-      Telefone: contact.telefone,
-      Categoria: contact.categoria,
-      Premium: contact.premium ? `Até ${new Date(contact.premiumUntil).toLocaleDateString()}` : 'Não',
-    }));
-
-    const blob = new Blob([JSON.stringify(contatosFormatados, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'contatos.json';
-    a.click();
-    URL.revokeObjectURL(url);
-  });
-
-  // Função para filtrar contatos por categoria
-  categoriaFiltro.addEventListener('change', function () {
-    paginaAtual = 1; // Resetar para a primeira página ao filtrar
-    renderContacts(contacts);
-  });
-
   // Função para cadastrar um novo contato
   cadastroForm.addEventListener('submit', function (e) {
     e.preventDefault();
@@ -312,15 +192,47 @@ document.addEventListener('DOMContentLoaded', function () {
       premiumUntil: null,
     };
 
-    contacts.push(newContact);
-    saveData();
-    renderContacts(contacts);
+    addContact(newContact); // Adiciona o contato via API
     cadastroForm.reset();
-    mensagemSucesso.classList.remove('hidden');
-    setTimeout(() => {
-      mensagemSucesso.classList.add('hidden');
-    }, 3000);
   });
+
+  // Função para editar um contato
+  window.editContact = async function (index) {
+    const contact = contacts[index];
+    const novoNome = prompt("Editar nome:", contact.nome);
+    const novoTelefone = prompt("Editar telefone:", contact.telefone);
+    const novaCategoria = prompt("Editar categoria:", contact.categoria);
+    const isPremium = confirm("Tornar este contato premium?");
+    let premiumUntil = null;
+
+    if (isPremium) {
+      const diasPremium = parseInt(prompt("Quantos dias de premium?"));
+      if (!isNaN(diasPremium) && diasPremium > 0) {
+        premiumUntil = new Date();
+        premiumUntil.setDate(premiumUntil.getDate() + diasPremium);
+      }
+    }
+
+    if (novoNome && novoTelefone && novaCategoria) {
+      const updatedContact = {
+        ...contact,
+        nome: novoNome,
+        telefone: novoTelefone,
+        categoria: novaCategoria,
+        premium: isPremium,
+        premiumUntil: premiumUntil,
+      };
+      await updateContact(contact.id, updatedContact); // Atualiza o contato via API
+    }
+  };
+
+  // Função para excluir um contato
+  window.deleteContact = async function (index) {
+    if (confirm("Tem certeza que deseja excluir este contato?")) {
+      const contact = contacts[index];
+      await deleteContact(contact.id); // Exclui o contato via API
+    }
+  };
 
   // Função para validar o telefone
   function validatePhone(telefone) {
@@ -340,38 +252,6 @@ document.addEventListener('DOMContentLoaded', function () {
     renderContacts(filteredContacts);
   });
 
-// Adicione no evento DOMContentLoaded
-premiumLink.addEventListener('click', function (e) {
-  e.preventDefault();
-  showSection(premiumSection);
+  // Carregar contatos ao iniciar
+  fetchContacts();
 });
-
-// Adicione a função para simular a compra do Premium
-document.getElementById('comprar-premium').addEventListener('click', function () {
-  const nomeContato = prompt("Digite o nome do contato que deseja tornar Premium:");
-  const contato = contacts.find(contact => contact.nome === nomeContato);
-
-  if (contato) {
-    const confirmacao = confirm(`Tornar "${contato.nome}" Premium por R$ 10,00?`);
-    if (confirmacao) {
-      const premiumUntil = new Date();
-      premiumUntil.setDate(premiumUntil.getDate() + 30); // 30 dias de Premium
-      contato.premium = true;
-      contato.premiumUntil = premiumUntil;
-      saveData();
-      renderContacts(contacts);
-      alert("Contato atualizado para Premium com sucesso!");
-    }
-  } else {
-    alert("Contato não encontrado. Verifique o nome e tente novamente.");
-  }
-});
-
-
-  
-  // Renderizar categorias no select ao carregar a página
-  renderCategoriasSelect();
-  // Renderizar contatos ao carregar a página
-  renderContacts(contacts);
-});
-

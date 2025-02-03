@@ -20,6 +20,13 @@ document.addEventListener('DOMContentLoaded', function () {
   const exportarContatosButton = document.getElementById('exportar-contatos');
   const paginacao = document.getElementById('paginacao');
 
+// Adicione no início do arquivo, junto com as outras constantes
+const premiumLink = document.getElementById('premium-link');
+const premiumSection = document.getElementById('premium');
+
+
+
+  
   const contatosCamocim = [
     // ... (seus contatos aqui)
   ];
@@ -339,4 +346,31 @@ document.addEventListener('DOMContentLoaded', function () {
   renderCategoriasSelect();
   // Renderizar contatos ao carregar a página
   renderContacts(contacts);
+});
+
+// Adicione no evento DOMContentLoaded
+premiumLink.addEventListener('click', function (e) {
+  e.preventDefault();
+  showSection(premiumSection);
+});
+
+// Adicione a função para simular a compra do Premium
+document.getElementById('comprar-premium').addEventListener('click', function () {
+  const nomeContato = prompt("Digite o nome do contato que deseja tornar Premium:");
+  const contato = contacts.find(contact => contact.nome === nomeContato);
+
+  if (contato) {
+    const confirmacao = confirm(`Tornar "${contato.nome}" Premium por R$ 10,00?`);
+    if (confirmacao) {
+      const premiumUntil = new Date();
+      premiumUntil.setDate(premiumUntil.getDate() + 30); // 30 dias de Premium
+      contato.premium = true;
+      contato.premiumUntil = premiumUntil;
+      saveData();
+      renderContacts(contacts);
+      alert("Contato atualizado para Premium com sucesso!");
+    }
+  } else {
+    alert("Contato não encontrado. Verifique o nome e tente novamente.");
+  }
 });

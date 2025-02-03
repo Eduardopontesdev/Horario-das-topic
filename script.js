@@ -342,12 +342,6 @@ const premiumSection = document.getElementById('premium');
     renderContacts(filteredContacts);
   });
 
-  // Renderizar categorias no select ao carregar a página
-  renderCategoriasSelect();
-  // Renderizar contatos ao carregar a página
-  renderContacts(contacts);
-});
-
 // Adicione no evento DOMContentLoaded
 premiumLink.addEventListener('click', function (e) {
   e.preventDefault();
@@ -374,3 +368,12 @@ document.getElementById('comprar-premium').addEventListener('click', function ()
     alert("Contato não encontrado. Verifique o nome e tente novamente.");
   }
 });
+
+
+  
+  // Renderizar categorias no select ao carregar a página
+  renderCategoriasSelect();
+  // Renderizar contatos ao carregar a página
+  renderContacts(contacts);
+});
+

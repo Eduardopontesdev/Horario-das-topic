@@ -18,72 +18,16 @@ document.addEventListener('DOMContentLoaded', function () {
   const categoriaSelect = document.getElementById('categoria');
   const categoriaFiltro = document.getElementById('categoria-filtro');
   const exportarContatosButton = document.getElementById('exportar-contatos');
+  const paginacao = document.getElementById('paginacao');
 
   const contatosCamocim = [
-    {
-      nome: "Hospital Municipal de Camocim",
-      telefone: "(88) 3621-1234",
-      categoria: "Saúde",
-      redesSociais: {
-        facebook: "",
-        instagram: "",
-        whatsapp: "",
-      },
-      premium: false,
-      premiumUntil: null,
-    },
-    {
-      nome: "Polícia Militar",
-      telefone: "190",
-      categoria: "Emergência",
-      redesSociais: {
-        facebook: "",
-        instagram: "",
-        whatsapp: "",
-      },
-      premium: false,
-      premiumUntil: null,
-    },
-    {
-      nome: "Bombeiros",
-      telefone: "193",
-      categoria: "Emergência",
-      redesSociais: {
-        facebook: "",
-        instagram: "",
-        whatsapp: "",
-      },
-      premium: false,
-      premiumUntil: null,
-    },
-    {
-      nome: "Prefeitura Municipal de Camocim",
-      telefone: "(88) 3621-0000",
-      categoria: "Serviços Públicos",
-      redesSociais: {
-        facebook: "https://facebook.com/prefeituracamocim",
-        instagram: "https://instagram.com/prefeituracamocim",
-        whatsapp: "",
-      },
-      premium: false,
-      premiumUntil: null,
-    },
-    {
-      nome: "Restaurante Sabor do Mar",
-      telefone: "(88) 3621-7890",
-      categoria: "Restaurantes",
-      redesSociais: {
-        facebook: "https://facebook.com/sabordomarcamocim",
-        instagram: "https://instagram.com/sabordomarcamocim",
-        whatsapp: "(88) 98765-4321",
-      },
-      premium: true,
-      premiumUntil: "2025-02-04",
-    },
+    // ... (seus contatos aqui)
   ];
 
   let contacts = JSON.parse(localStorage.getItem('contacts')) || contatosCamocim;
   let categorias = JSON.parse(localStorage.getItem('categorias')) || ["Saúde", "Emergência", "Serviços Públicos", "Restaurantes"];
+  const contatosPorPagina = 6; // Contatos por página
+  let paginaAtual = 1; // Página atual
 
   // Função para salvar dados no localStorage
   function saveData() {
@@ -234,15 +178,21 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  // Função para renderizar contatos na listagem
+  // Função para renderizar contatos na listagem com paginação
   function renderContacts(contacts) {
-    contactList.innerHTML = '';
     const categoriaSelecionada = categoriaFiltro.value;
     const contatosFiltrados = categoriaSelecionada === "Todas"
       ? contacts
       : contacts.filter(contact => contact.categoria === categoriaSelecionada);
 
-    contatosFiltrados.forEach(contact => {
+    // Calcular índices dos contatos da página atual
+    const inicio = (paginaAtual - 1) * contatosPorPagina;
+    const fim = inicio + contatosPorPagina;
+    const contatosPagina = contatosFiltrados.slice(inicio, fim);
+
+    // Renderizar contatos da página atual
+    contactList.innerHTML = '';
+    contatosPagina.forEach(contact => {
       const contactCard = document.createElement('div');
       contactCard.classList.add('contact-card');
       if (contact.premium && new Date(contact.premiumUntil) > new Date()) {
@@ -271,6 +221,29 @@ document.addEventListener('DOMContentLoaded', function () {
       `;
       contactList.appendChild(contactCard);
     });
+
+    // Renderizar botões de paginação
+    renderPaginacao(contatosFiltrados.length);
+  }
+
+  // Função para renderizar botões de paginação
+  function renderPaginacao(totalContatos) {
+    const totalPaginas = Math.ceil(totalContatos / contatosPorPagina);
+    paginacao.innerHTML = '';
+
+    for (let i = 1; i <= totalPaginas; i++) {
+      const botao = document.createElement('button');
+      botao.textContent = i;
+      botao.classList.add('pagina');
+      if (i === paginaAtual) {
+        botao.classList.add('active');
+      }
+      botao.addEventListener('click', () => {
+        paginaAtual = i;
+        renderContacts(contacts);
+      });
+      paginacao.appendChild(botao);
+    }
   }
 
   // Função para compartilhar um contato no WhatsApp
@@ -300,6 +273,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Função para filtrar contatos por categoria
   categoriaFiltro.addEventListener('change', function () {
+    paginaAtual = 1; // Resetar para a primeira página ao filtrar
     renderContacts(contacts);
   });
 
@@ -357,6 +331,7 @@ document.addEventListener('DOMContentLoaded', function () {
       contact.telefone.includes(searchTerm) ||
       contact.categoria.toLowerCase().includes(searchTerm)
     );
+    paginaAtual = 1; // Resetar para a primeira página ao pesquisar
     renderContacts(filteredContacts);
   });
 

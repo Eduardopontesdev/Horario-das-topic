@@ -20,133 +20,70 @@ document.addEventListener('DOMContentLoaded', function () {
   const exportarContatosButton = document.getElementById('exportar-contatos');
 
   const contatosCamocim = [
-  {
-    nome: "Hospital Municipal de Camocim",
-    telefone: "(88) 3621-1234",
-    categoria: "Saúde",
-    redesSociais: {
-      facebook: "",
-      instagram: "",
-      whatsapp: "",
+    {
+      nome: "Hospital Municipal de Camocim",
+      telefone: "(88) 3621-1234",
+      categoria: "Saúde",
+      redesSociais: {
+        facebook: "",
+        instagram: "",
+        whatsapp: "",
+      },
+      premium: false,
+      premiumUntil: null,
     },
-    premium: false,
-    premiumUntil: null,
-  },
-  {
-    nome: "Polícia Militar",
-    telefone: "190",
-    categoria: "Emergência",
-    redesSociais: {
-      facebook: "",
-      instagram: "",
-      whatsapp: "",
+    {
+      nome: "Polícia Militar",
+      telefone: "190",
+      categoria: "Emergência",
+      redesSociais: {
+        facebook: "",
+        instagram: "",
+        whatsapp: "",
+      },
+      premium: false,
+      premiumUntil: null,
     },
-    premium: false,
-    premiumUntil: null,
-  },
-  {
-    nome: "Bombeiros",
-    telefone: "193",
-    categoria: "Emergência",
-    redesSociais: {
-      facebook: "",
-      instagram: "",
-      whatsapp: "",
+    {
+      nome: "Bombeiros",
+      telefone: "193",
+      categoria: "Emergência",
+      redesSociais: {
+        facebook: "",
+        instagram: "",
+        whatsapp: "",
+      },
+      premium: false,
+      premiumUntil: null,
     },
-    premium: false,
-    premiumUntil: null,
-  },
-  {
-    nome: "Prefeitura Municipal de Camocim",
-    telefone: "(88) 3621-0000",
-    categoria: "Serviços Públicos",
-    redesSociais: {
-      facebook: "https://facebook.com/prefeituracamocim",
-      instagram: "https://instagram.com/prefeituracamocim",
-      whatsapp: "",
+    {
+      nome: "Prefeitura Municipal de Camocim",
+      telefone: "(88) 3621-0000",
+      categoria: "Serviços Públicos",
+      redesSociais: {
+        facebook: "https://facebook.com/prefeituracamocim",
+        instagram: "https://instagram.com/prefeituracamocim",
+        whatsapp: "",
+      },
+      premium: false,
+      premiumUntil: null,
     },
-    premium: false,
-    premiumUntil: null,
-  },
-  {
-    nome: "Rodoviária de Camocim",
-    telefone: "(88) 3621-4567",
-    categoria: "Transporte",
-    redesSociais: {
-      facebook: "",
-      instagram: "",
-      whatsapp: "",
+    {
+      nome: "Restaurante Sabor do Mar",
+      telefone: "(88) 3621-7890",
+      categoria: "Restaurantes",
+      redesSociais: {
+        facebook: "https://facebook.com/sabordomarcamocim",
+        instagram: "https://instagram.com/sabordomarcamocim",
+        whatsapp: "(88) 98765-4321",
+      },
+      premium: true,
+      premiumUntil: "2025-02-04",
     },
-    premium: false,
-    premiumUntil: null,
-  },
-  {
-    nome: "Restaurante Sabor do Mar",
-    telefone: "(88) 3621-7890",
-    categoria: "Restaurantes",
-    redesSociais: {
-      facebook: "https://facebook.com/sabordomarcamocim",
-      instagram: "https://instagram.com/sabordomarcamocim",
-      whatsapp: "(88) 98765-4321",
-    },
-    premium: true,
-    premiumUntil: "2025-02-04",
-  },
-  {
-    nome: "Posto de Combustível Shell",
-    telefone: "(88) 3621-2345",
-    categoria: "Transporte",
-    redesSociais: {
-      facebook: "",
-      instagram: "",
-      whatsapp: "",
-    },
-    premium: false,
-    premiumUntil: null,
-  },
-  {
-    nome: "Escola Municipal João da Silva",
-    telefone: "(88) 3621-6789",
-    categoria: "Educação",
-    redesSociais: {
-      facebook: "",
-      instagram: "",
-      whatsapp: "",
-    },
-    premium: false,
-    premiumUntil: null,
-  },
-  {
-    nome: "Praia de Maceió (Barraca do Peixe)",
-    telefone: "(88) 98765-1234",
-    categoria: "Lazer",
-    redesSociais: {
-      facebook: "",
-      instagram: "",
-      whatsapp: "(88) 98765-1234",
-    },
-    premium: true,
-    premiumUntil: "2025-12-31",
-  },
-  {
-    nome: "Mercado Central de Camocim",
-    telefone: "(88) 3621-3456",
-    categoria: "Comércio",
-    redesSociais: {
-      facebook: "https://facebook.com/mercadocentralcamocim",
-      instagram: "https://instagram.com/mercadocentralcamocim",
-      whatsapp: "",
-    },
-    premium: false,
-    premiumUntil: null,
-  },
-];
+  ];
 
-  let contacts = contatosCamocim; // Substitua a array inicial por esta
-localStorage.setItem('contacts', JSON.stringify(contacts)); // Salva no localStorage
-renderContacts(contacts); // Renderiza os contatos na tela
-      
-  let categorias = JSON.parse(localStorage.getItem('categorias')) || ["Saúde", "Emergência", "Transporte", "Restaurantes", "Educação", "Lazer", "Comércio"];
+  let contacts = JSON.parse(localStorage.getItem('contacts')) || contatosCamocim;
+  let categorias = JSON.parse(localStorage.getItem('categorias')) || ["Saúde", "Emergência", "Serviços Públicos", "Restaurantes"];
 
   // Função para salvar dados no localStorage
   function saveData() {
@@ -312,10 +249,19 @@ renderContacts(contacts); // Renderiza os contatos na tela
         contactCard.classList.add('premium');
       }
 
-                                    contactCard.innerHTML = `
+      const redesSociaisHTML = `
+        <div class="redes-sociais-icons">
+          ${contact.redesSociais.facebook ? `<a href="${contact.redesSociais.facebook}" target="_blank"><i class="fab fa-facebook" style="color: #1877f2;"></i></a>` : ''}
+          ${contact.redesSociais.instagram ? `<a href="${contact.redesSociais.instagram}" target="_blank"><i class="fab fa-instagram" style="color: #e4405f;"></i></a>` : ''}
+          ${contact.redesSociais.whatsapp ? `<a href="https://wa.me/${contact.redesSociais.whatsapp}" target="_blank"><i class="fab fa-whatsapp" style="color: #25d366;"></i></a>` : ''}
+        </div>
+      `;
+
+      contactCard.innerHTML = `
         <div class="categoria">${contact.categoria}</div>
         <h3>${contact.nome}</h3>
         <p>Telefone: ${contact.telefone}</p>
+        ${redesSociaisHTML}
         ${contact.premium && new Date(contact.premiumUntil) > new Date()
           ? `<p>⭐ Premium até: ${new Date(contact.premiumUntil).toLocaleDateString()}</p>`
           : ''}
@@ -368,6 +314,12 @@ renderContacts(contacts); // Renderiza os contatos na tela
     const instagram = document.getElementById('instagram').value;
     const whatsapp = document.getElementById('whatsapp').value;
 
+    // Validação do telefone
+    if (!validatePhone(telefone)) {
+      alert("Por favor, insira um número de telefone válido.");
+      return;
+    }
+
     const newContact = {
       nome,
       telefone,
@@ -390,6 +342,12 @@ renderContacts(contacts); // Renderiza os contatos na tela
       mensagemSucesso.classList.add('hidden');
     }, 3000);
   });
+
+  // Função para validar o telefone
+  function validatePhone(telefone) {
+    const regex = /^\(?\d{2}\)?[\s-]?\d{4,5}-?\d{4}$/;
+    return regex.test(telefone);
+  }
 
   // Função para filtrar contatos na pesquisa
   searchInput.addEventListener('input', function () {

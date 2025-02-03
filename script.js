@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function () {
       whatsapp: "(88) 98765-4321",
     },
     premium: true,
-    premiumUntil: "2025-12-31",
+    premiumUntil: "2025-02-04",
   },
   {
     nome: "Posto de Combustível Shell",

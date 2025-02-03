@@ -19,10 +19,8 @@ document.addEventListener('DOMContentLoaded', function () {
   const categoriaFiltro = document.getElementById('categoria-filtro');
   const exportarContatosButton = document.getElementById('exportar-contatos');
   const paginacao = document.getElementById('paginacao');
-
-// Adicione no início do arquivo, junto com as outras constantes
-const premiumLink = document.getElementById('premium-link');
-const premiumSection = document.getElementById('premium');
+  const premiumLink = document.getElementById('premium-link');
+  const premiumSection = document.getElementById('premium');
 
 
 
@@ -33,7 +31,7 @@ const premiumSection = document.getElementById('premium');
 
   let contacts = JSON.parse(localStorage.getItem('contacts')) || contatosCamocim;
   let categorias = JSON.parse(localStorage.getItem('categorias')) || ["Saúde", "Emergência", "Serviços Públicos", "Restaurantes"];
-  const contatosPorPagina = 6; // Contatos por página
+  const contatosPorPagina = 8; // Contatos por página
   let paginaAtual = 1; // Página atual
 
   // Função para salvar dados no localStorage

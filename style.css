@@ -132,6 +132,7 @@ section {
   padding: 4px 10px;
   border-radius: 5px;
   cursor: pointer;
+  margin-bottom: 2px;
 }
 
 .contact-card .whatsapp-share:hover {

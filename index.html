@@ -3,8 +3,31 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      property="og:title"
+      content="Guia Completo da Cidade de Camocim - Telefones Úteis"
+    />
+    <meta
+      property="og:description"
+      content="Explore Camocim com nosso guia completo! Encontre telefones úteis, Serviços, restaurantes, hospedagens e tudo o que você precisa para aproveitar ao máximo sua visita à cidade."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.exemplo.com/guia-camocim" />
+    <meta
+      property="og:image"
+      content="https://www.exemplo.com/imagens/camocim-destaque.jpg"
+    />
+    <meta property="og:site_name" content="Guia de Camocim" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta
+      property="og:keywords"
+      content="Camocim, telefones úteis, turismo, praias, restaurantes, hospedagem, "
+    />
     <title>Guia de Camocim</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
@@ -14,8 +37,7 @@
         <ul>
           <li><a href="#" id="home-link">Início</a></li>
           <li><a href="#" id="cadastro-link">Cadastrar Contato</a></li>
-          <li><a href="#" id="admin-link">Administração</a></li>
-          <li><a href="#" id="premium-link">Seja Premium</a></li> <!-- Novo link -->
+          <li><a href="#" id="premium-link">Seja Premium</a></li>
         </ul>
       </nav>
     </header>
@@ -43,54 +65,42 @@
         <h2>Cadastrar Novo Contato</h2>
         <form id="cadastro-form">
           <label for="nome">Nome:</label>
-          <input type="text" id="nome" required />
+          <input
+            type="text"
+            id="nome"
+            required
+            placeholder="Seu Nome ou nome da empresa"
+          />
 
           <label for="telefone">Telefone:</label>
-          <input type="text" id="telefone" required />
+          <input
+            type="text"
+            id="telefone"
+            required
+            placeholder="telefone sem espaços ou caracteres especiais"
+          />
 
-          <label for="categoria">Categoria:</label>
+          <label for="categoria"
+            >Categoria que se enquadra com a sua ocupação:</label
+          >
           <select id="categoria" required>
             <!-- Categorias serão preenchidas dinamicamente -->
           </select>
 
           <label for="redes-sociais">Redes Sociais (opcional):</label>
           <div class="redes-sociais">
-            <input type="text" id="facebook" placeholder="Facebook">
+            <input type="text" id="facebook" placeholder="Facebook" />
             <i class="fab fa-facebook"></i>
-            <input type="text" id="instagram" placeholder="Instagram">
+            <input type="text" id="instagram" placeholder="Instagram" />
             <i class="fab fa-instagram"></i>
-            <input type="text" id="whatsapp" placeholder="WhatsApp">
+            <input type="text" id="whatsapp" placeholder="WhatsApp" />
             <i class="fab fa-whatsapp"></i>
           </div>
           <button type="submit">Salvar</button>
         </form>
 
-        <div id="mensagem-sucesso" class="hidden">Contato cadastrado com sucesso!</div>
-      </section>
-
-      <!-- Tela de Administração -->
-      <section id="administracao" class="hidden">
-        <h2>Administração</h2>
-        <div id="admin-options">
-          <button id="editar-contatos">Editar Contatos</button>
-          <button id="gerenciar-categorias">Gerenciar Categorias</button>
-          <button id="exportar-contatos">Exportar Contatos</button>
-        </div>
-
-        <!-- Edição de Contatos -->
-        <div id="editar-contatos-section" class="hidden">
-          <h3>Editar Contatos</h3>
-          <div id="admin-contact-list"></div>
-        </div>
-
-        <!-- Gerenciamento de Categorias -->
-        <div id="gerenciar-categorias-section" class="hidden">
-          <h3>Gerenciar Categorias</h3>
-          <form id="categoria-form">
-            <input type="text" id="nova-categoria" placeholder="Nova Categoria" required />
-            <button type="submit">Adicionar Categoria</button>
-          </form>
-          <ul id="categorias-list"></ul>
+        <div id="mensagem-sucesso" class="hidden">
+          Contato cadastrado com sucesso!
         </div>
       </section>
 
@@ -101,9 +111,14 @@
           <div class="premium-benefits">
             <h3>Vantagens de ser Premium:</h3>
             <ul>
-              <li><i class="fas fa-star"></i> Destaque visual no seu contato.</li>
+              <li>
+                <i class="fas fa-star"></i> Destaque visual no seu contato.
+              </li>
               <li><i class="fas fa-check"></i> Prioridade nas buscas.</li>
-              <li><i class="fas fa-users"></i> Maior visibilidade para o seu negócio.</li>
+              <li>
+                <i class="fas fa-users"></i> Maior visibilidade para o seu
+                negócio.
+              </li>
               <li><i class="fas fa-clock"></i> 30 dias de destaque.</li>
             </ul>
           </div>
@@ -111,15 +126,19 @@
             <h3>Valor: R$ 10,00</h3>
             <button id="comprar-premium">Comprar Agora</button>
           </div>
+          <!-- Campos ocultos para armazenar os dados do contato -->
+          <input type="hidden" id="premium-contact-id" />
+          <input type="hidden" id="premium-contact-name" />
+          <input type="hidden" id="premium-contact-phone" />
         </div>
       </section>
     </main>
 
     <footer>
-        <p>&copy; 2025 Guia de Camocim</p>
-        <p>Criado por <a href="#" target="_blank">Eduardo Pontes</a></p>
+      <p>&copy; 2025 Guia de Camocim</p>
+      <p>Criado por <a href="#" target="_blank">Eduardo Pontes</a></p>
     </footer>
 
     <script src="script.js"></script>
   </body>
-            </html>
+</html>

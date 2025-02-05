@@ -1,97 +1,129 @@
 document.addEventListener('DOMContentLoaded', function () {
   const homeLink = document.getElementById('home-link');
   const cadastroLink = document.getElementById('cadastro-link');
-  const adminLink = document.getElementById('admin-link');
   const listagemSection = document.getElementById('listagem');
   const cadastroSection = document.getElementById('cadastro');
-  const administracaoSection = document.getElementById('administracao');
-  const editarContatosSection = document.getElementById('editar-contatos-section');
-  const gerenciarCategoriasSection = document.getElementById('gerenciar-categorias-section');
-  const adminContactList = document.getElementById('admin-contact-list');
-  const categoriasList = document.getElementById('categorias-list');
-  const categoriaForm = document.getElementById('categoria-form');
-  const novaCategoriaInput = document.getElementById('nova-categoria');
-  const cadastroForm = document.getElementById('cadastro-form');
   const contactList = document.getElementById('contact-list');
   const searchInput = document.getElementById('search');
   const mensagemSucesso = document.getElementById('mensagem-sucesso');
   const categoriaSelect = document.getElementById('categoria');
   const categoriaFiltro = document.getElementById('categoria-filtro');
-  const exportarContatosButton = document.getElementById('exportar-contatos');
   const paginacao = document.getElementById('paginacao');
   const premiumLink = document.getElementById('premium-link');
   const premiumSection = document.getElementById('premium');
 
-  const API_URL = 'http://localhost:3000/contatos'; // Substitua pela URL da sua API
-  const contatosPorPagina = 8; // Contatos por página
-  let paginaAtual = 1; // Página atual
-  let contacts = []; // Lista de contatos carregada da API
+  let contacts = [];
+  let categorias = [];
+  const contatosPorPagina = 8;
+  let paginaAtual = 1;
+
+  const apiUrl = 'https://guia-api.vercel.app/contatos';
+  const categoriasUrl = 'https://guia-api.vercel.app/categorias';
+  const meuWhatsapp = "88996328842";
+
+  // Array de categorias para o cadastro de novos contatos
+  const categoriasCadastro = [
+    "Sem Categoria",
+    "Saúde",
+    "Farmacia",
+    "Emergência",
+    "Serviços Públicos",
+    "Restaurantes",
+    "Educação",
+    "Transporte",
+    "Lazer",
+    "Corretor de Imoveis",
+    "Compras",
+    "Turismo",
+    "Tecnologia",
+    "Desenvolvedor",
+    "Informatica",
+    "Assitencia de Celulares",
+    "Finanças",
+    "Alimentação",
+    "Moda",
+    "Beleza",
+    "Esportes",
+    "Automóveis",
+    "Casa e Jardim",
+    "Pet Shop",
+    "Entretenimento",
+    "Serviços Profissionais",
+    "Pintor",
+    "Pedreiro",
+    "Eletricista",
+    "Servente",
+    "Loja",
+    "Barraca",
+    "Moto-taxi",
+    "Taxi",
+    "Motorista de Aplicativo",
+    "Podador de Arvóre",
+    "Frete",
+    "Bolo",
+    "Bolo confeitado",
+    "Bolos e Salgados",
+    "Salgados",
+    "Frete",
+    "Outros"
+  ];
 
   // Função para buscar contatos da API
   async function fetchContacts() {
     try {
-      const response = await fetch(`${API_URL}/contacts`);
-      if (!response.ok) throw new Error('Erro ao carregar contatos');
-      contacts = await response.json();
-      renderContacts(contacts);
-    } catch (error) {
-      console.error('Erro:', error);
-      alert('Erro ao carregar contatos. Tente novamente.');
-    }
-  }
-
-  // Função para adicionar um contato via API
-  async function addContact(newContact) {
-    try {
-      const response = await fetch(`${API_URL}/contacts`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newContact),
-      });
-      if (!response.ok) throw new Error('Erro ao adicionar contato');
+      const response = await fetch(apiUrl);
       const data = await response.json();
-      contacts.push(data); // Adiciona o novo contato à lista local
+      contacts = data;
       renderContacts(contacts);
-      mensagemSucesso.classList.remove('hidden');
-      setTimeout(() => mensagemSucesso.classList.add('hidden'), 3000);
     } catch (error) {
-      console.error('Erro:', error);
-      alert('Erro ao adicionar contato. Tente novamente.');
+      console.error('Erro ao buscar contatos:', error);
     }
   }
 
-  // Função para atualizar um contato via API
-  async function updateContact(id, updatedContact) {
+  // Função para buscar categorias da API (para o filtro de pesquisa)
+  async function fetchCategorias() {
     try {
-      const response = await fetch(`${API_URL}/contacts/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updatedContact),
-      });
-      if (!response.ok) throw new Error('Erro ao atualizar contato');
+      const response = await fetch(categoriasUrl);
       const data = await response.json();
-      const index = contacts.findIndex(contact => contact.id === id);
-      if (index !== -1) contacts[index] = data; // Atualiza o contato na lista local
-      renderContacts(contacts);
+      categorias = data;
+      renderCategoriasFiltro();
     } catch (error) {
-      console.error('Erro:', error);
-      alert('Erro ao atualizar contato. Tente novamente.');
+      console.error('Erro ao buscar categorias:', error);
     }
   }
 
-  // Função para excluir um contato via API
-  async function deleteContact(id) {
-    try {
-      const response = await fetch(`${API_URL}/contacts/${id}`, {
-        method: 'DELETE',
-      });
-      if (!response.ok) throw new Error('Erro ao excluir contato');
-      contacts = contacts.filter(contact => contact.id !== id); // Remove o contato da lista local
-      renderContacts(contacts);
-    } catch (error) {
-      console.error('Erro:', error);
-      alert('Erro ao excluir contato. Tente novamente.');
-    }
+  // Função para renderizar categorias no select do filtro de pesquisa (vindas do banco de dados)
+  function renderCategoriasFiltro() {
+    const options = categorias.map((cat) => `<option value="${cat}">${cat}</option>`).join('');
+    categoriaFiltro.innerHTML = `<option value="Todas">Todas</option>${options}`;
+  }
+
+  // Função para renderizar categorias no select do cadastro (vindas da array)
+  function renderCategoriasCadastro() {
+    const options = categoriasCadastro.map(cat => `<option value="${cat}">${cat}</option>`).join('');
+    categoriaSelect.innerHTML = options;
+  }
+
+  // Função para alternar entre as seções
+  homeLink.addEventListener('click', function (e) {
+    e.preventDefault();
+    showSection(listagemSection);
+    renderContacts(contacts);
+    premiumSection.classList.add('hidden');
+  });
+
+  cadastroLink.addEventListener('click', function (e) {
+    e.preventDefault();
+    showSection(cadastroSection);
+    premiumSection.classList.add('hidden');
+  });
+
+  // Função para exibir uma seção e ocultar as outras
+  function showSection(section) {
+    listagemSection.classList.add('hidden');
+    cadastroSection.classList.add('hidden');
+    premiumSection.classList.add('hidden');
+    section.classList.remove('hidden');
   }
 
   // Função para renderizar contatos na listagem com paginação
@@ -101,12 +133,10 @@ document.addEventListener('DOMContentLoaded', function () {
       ? contacts
       : contacts.filter(contact => contact.categoria === categoriaSelecionada);
 
-    // Calcular índices dos contatos da página atual
     const inicio = (paginaAtual - 1) * contatosPorPagina;
     const fim = inicio + contatosPorPagina;
     const contatosPagina = contatosFiltrados.slice(inicio, fim);
 
-    // Renderizar contatos da página atual
     contactList.innerHTML = '';
     contatosPagina.forEach(contact => {
       const contactCard = document.createElement('div');
@@ -115,6 +145,7 @@ document.addEventListener('DOMContentLoaded', function () {
         contactCard.classList.add('premium');
       }
 
+      // Renderização das redes sociais (sempre visível)
       const redesSociaisHTML = `
         <div class="redes-sociais-icons">
           ${contact.redesSociais.facebook ? `<a href="${contact.redesSociais.facebook}" target="_blank"><i class="fab fa-facebook" style="color: #1877f2;"></i></a>` : ''}
@@ -123,22 +154,26 @@ document.addEventListener('DOMContentLoaded', function () {
         </div>
       `;
 
+      // Renderização do conteúdo do card
       contactCard.innerHTML = `
         <div class="categoria">${contact.categoria}</div>
         <h3>${contact.nome}</h3>
         <p>Telefone: ${contact.telefone}</p>
         ${redesSociaisHTML}
         ${contact.premium && new Date(contact.premiumUntil) > new Date()
-          ? `<p>⭐ Premium até: ${new Date(contact.premiumUntil).toLocaleDateString()}</p>`
+          ? ` <p>⭐ Premium até: ${new Date(contact.premiumUntil).toLocaleDateString()}</p>`
           : ''}
+      
         <button class="whatsapp-share" onclick="shareOnWhatsApp('${contact.telefone}', '${contact.nome}')">
           <i class="fab fa-whatsapp"></i> Compartilhar
         </button>
+        ${!contact.premium || new Date(contact.premiumUntil) <= new Date()
+          ? `<span class="premium-icon" onclick="goToPremium('${contact.id}', '${contact.nome}', '${contact.telefone}')">Se tornar Premium?</span>`
+          : ''}
       `;
       contactList.appendChild(contactCard);
     });
 
-    // Renderizar botões de paginação
     renderPaginacao(contatosFiltrados.length);
   }
 
@@ -162,8 +197,40 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
+  // Função para compartilhar um contato no WhatsApp
+  window.shareOnWhatsApp = function (telefone, nome) {
+    const mensagem = `Contato: ${nome}\nTelefone: ${telefone}`;
+    const url = `https://wa.me/?text=${encodeURIComponent(mensagem)}`;
+    window.open(url, '_blank');
+  };
+
+  // Função para filtrar contatos por categoria
+  categoriaFiltro.addEventListener('change', function () {
+    paginaAtual = 1;
+    renderContacts(contacts);
+  });
+
+  // Função para verificar se o contato já existe na mesma categoria
+  function contatoExisteNaCategoria(nome, telefone, categoria) {
+    return contacts.some(contact =>
+      contact.nome.toLowerCase() === nome.toLowerCase() &&
+      contact.telefone === telefone &&
+      contact.categoria === categoria
+    );
+  }
+
+  // Variável para armazenar o tempo do último cadastro
+  let ultimoCadastroTempo = 0;
+  const tempoMinimoEntreCadastros = 10000; // 10 segundos
+
+  // Função para verificar se o tempo mínimo entre cadastros foi respeitado
+  function podeCadastrar() {
+    const agora = Date.now();
+    return agora - ultimoCadastroTempo >= tempoMinimoEntreCadastros;
+  }
+
   // Função para cadastrar um novo contato
-  cadastroForm.addEventListener('submit', function (e) {
+  document.getElementById('cadastro-form').addEventListener('submit', async function (e) {
     e.preventDefault();
 
     const nome = document.getElementById('nome').value;
@@ -173,9 +240,18 @@ document.addEventListener('DOMContentLoaded', function () {
     const instagram = document.getElementById('instagram').value;
     const whatsapp = document.getElementById('whatsapp').value;
 
-    // Validação do telefone
     if (!validatePhone(telefone)) {
       alert("Por favor, insira um número de telefone válido.");
+      return;
+    }
+
+    if (!podeCadastrar()) {
+      alert("Por favor, aguarde 10 segundos antes de cadastrar outro contato.");
+      return;
+    }
+
+    if (contatoExisteNaCategoria(nome, telefone, categoria)) {
+      alert("Um contato com os mesmos dados já existe nesta categoria.");
       return;
     }
 
@@ -192,47 +268,27 @@ document.addEventListener('DOMContentLoaded', function () {
       premiumUntil: null,
     };
 
-    addContact(newContact); // Adiciona o contato via API
-    cadastroForm.reset();
-  });
-
-  // Função para editar um contato
-  window.editContact = async function (index) {
-    const contact = contacts[index];
-    const novoNome = prompt("Editar nome:", contact.nome);
-    const novoTelefone = prompt("Editar telefone:", contact.telefone);
-    const novaCategoria = prompt("Editar categoria:", contact.categoria);
-    const isPremium = confirm("Tornar este contato premium?");
-    let premiumUntil = null;
-
-    if (isPremium) {
-      const diasPremium = parseInt(prompt("Quantos dias de premium?"));
-      if (!isNaN(diasPremium) && diasPremium > 0) {
-        premiumUntil = new Date();
-        premiumUntil.setDate(premiumUntil.getDate() + diasPremium);
+    try {
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newContact),
+      });
+      if (response.ok) {
+        ultimoCadastroTempo = Date.now(); // Atualiza o tempo do último cadastro
+        await fetchContacts();
+        document.getElementById('cadastro-form').reset();
+        mensagemSucesso.classList.remove('hidden');
+        setTimeout(() => {
+          mensagemSucesso.classList.add('hidden');
+        }, 3000);
       }
+    } catch (error) {
+      console.error('Erro ao cadastrar contato:', error);
     }
-
-    if (novoNome && novoTelefone && novaCategoria) {
-      const updatedContact = {
-        ...contact,
-        nome: novoNome,
-        telefone: novoTelefone,
-        categoria: novaCategoria,
-        premium: isPremium,
-        premiumUntil: premiumUntil,
-      };
-      await updateContact(contact.id, updatedContact); // Atualiza o contato via API
-    }
-  };
-
-  // Função para excluir um contato
-  window.deleteContact = async function (index) {
-    if (confirm("Tem certeza que deseja excluir este contato?")) {
-      const contact = contacts[index];
-      await deleteContact(contact.id); // Exclui o contato via API
-    }
-  };
+  });
 
   // Função para validar o telefone
   function validatePhone(telefone) {
@@ -248,10 +304,39 @@ document.addEventListener('DOMContentLoaded', function () {
       contact.telefone.includes(searchTerm) ||
       contact.categoria.toLowerCase().includes(searchTerm)
     );
-    paginaAtual = 1; // Resetar para a primeira página ao pesquisar
+    paginaAtual = 1;
     renderContacts(filteredContacts);
   });
 
-  // Carregar contatos ao iniciar
+  // Adicionar evento para a seção premium
+  premiumLink.addEventListener('click', function (e) {
+    e.preventDefault();
+    showSection(premiumSection);
+  });
+
+  // Função para redirecionar para a seção premium com os dados do contato
+  window.goToPremium = function (id, nome, telefone) {
+    showSection(premiumSection);
+    document.getElementById('premium-contact-id').value = id;
+    document.getElementById('premium-contact-name').value = nome;
+    document.getElementById('premium-contact-phone').value = telefone;
+  };
+
+  // Função para comprar premium
+  document.getElementById('comprar-premium').addEventListener('click', function () {
+    const id = document.getElementById('premium-contact-id').value;
+    const nome = document.getElementById('premium-contact-name').value;
+    const telefone = document.getElementById('premium-contact-phone').value;
+
+    const mensagem = `Olá, gostaria de tornar o contato ${nome} (${telefone}) premium.`;
+    const url = `https://wa.me/${meuWhatsapp}?text=${encodeURIComponent(mensagem)}`;
+    window.open(url, '_blank');
+  });
+
+  // Renderizar categorias no select do cadastro ao carregar a página
+  renderCategoriasCadastro();
+  // Buscar categorias do banco de dados para o filtro de pesquisa
+  fetchCategorias();
+  // Buscar contatos da API ao carregar a página
   fetchContacts();
 });

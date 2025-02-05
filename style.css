@@ -190,8 +190,8 @@ section {
 
 .redes-sociais {
   display: flex;
-  align-items: center;
   gap: 10px;
+  flex-direction: column;
 }
 
 .redes-sociais i {

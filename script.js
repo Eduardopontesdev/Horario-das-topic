@@ -234,11 +234,16 @@ document.addEventListener('DOMContentLoaded', function () {
     e.preventDefault();
 
     const nome = document.getElementById('nome').value;
-    const telefone = document.getElementById('telefone').value;
+    let telefone = document.getElementById('telefone').value;
     const categoria = document.getElementById('categoria').value;
     const facebook = document.getElementById('facebook').value;
     const instagram = document.getElementById('instagram').value;
     const whatsapp = document.getElementById('whatsapp').value;
+
+    // Adiciona +55 ao número de telefone se não estiver presente
+    if (!telefone.startsWith('+55')) {
+      telefone = `+55${telefone.replace(/\D/g, '')}`;
+    }
 
     if (!validatePhone(telefone)) {
       alert("Por favor, insira um número de telefone válido.");
@@ -292,7 +297,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Função para validar o telefone
   function validatePhone(telefone) {
-    const regex = /^\(?\d{2}\)?[\s-]?\d{4,5}-?\d{4}$/;
+    const regex = /^\+55\d{10,11}$/;
     return regex.test(telefone);
   }
 

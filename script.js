@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const apiUrl = 'https://guia-api.vercel.app/contatos';
   const categoriasUrl = 'https://guia-api.vercel.app/categorias';
-  const meuWhatsapp = "88996328842";
+  const meuWhatsapp = "+5588996328842";
 
   // Array de categorias para o cadastro de novos contatos
   const categoriasCadastro = [

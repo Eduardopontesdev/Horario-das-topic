@@ -65,7 +65,15 @@ document.addEventListener('DOMContentLoaded', function () {
     "Bolos e Salgados",
     "Salgados",
     "Frete",
+    "Delivery",
+    "Pizzaria",
+    "Pastelaria",
+    "Pizzaria - Pastelaria",
+    "Sushi",
+    "Hotel - Pousada",
+    "Montador de Móveis",
     "Outros"
+    
   ];
 
   // Função para buscar contatos da API
@@ -151,6 +159,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const inicio = (paginaAtual - 1) * contatosPorPagina;
     const fim = inicio + contatosPorPagina;
     const contatosPagina = contatosOrdenados.slice(inicio, fim);
+
+    // Atualiza o contador de contatos
+  document.getElementById('total-contatos').textContent = contatosFiltrados.length;
 
     contactList.innerHTML = '';
     contatosPagina.forEach(contact => {

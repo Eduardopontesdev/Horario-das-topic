@@ -53,9 +53,20 @@ section {
 #search {
   width: 100%;
   padding: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 10px; /* Reduzi o margin-bottom para dar espaço ao contador */
   border: 1px solid #ccc;
   border-radius: 5px;
+}
+
+#contador-contatos {
+  margin-bottom: 20px; /* Espaço abaixo do contador */
+  font-size: 0.9em;
+  color: #555;
+}
+
+#contador-contatos span {
+  font-weight: bold;
+  color: #333;
 }
 
 #filtro-categorias {

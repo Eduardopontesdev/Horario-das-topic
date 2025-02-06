@@ -126,6 +126,18 @@ document.addEventListener('DOMContentLoaded', function () {
     section.classList.remove('hidden');
   }
 
+  // Função para ordenar contatos, priorizando os Premium
+  function sortContacts(contacts) {
+    return contacts.sort((a, b) => {
+      const aIsPremium = a.premium && new Date(a.premiumUntil) > new Date();
+      const bIsPremium = b.premium && new Date(b.premiumUntil) > new Date();
+
+      if (aIsPremium && !bIsPremium) return -1;
+      if (!aIsPremium && bIsPremium) return 1;
+      return 0;
+    });
+  }
+
   // Função para renderizar contatos na listagem com paginação
   function renderContacts(contacts) {
     const categoriaSelecionada = categoriaFiltro.value;
@@ -133,9 +145,12 @@ document.addEventListener('DOMContentLoaded', function () {
       ? contacts
       : contacts.filter(contact => contact.categoria === categoriaSelecionada);
 
+    // Ordena os contatos, priorizando os Premium
+    const contatosOrdenados = sortContacts(contatosFiltrados);
+
     const inicio = (paginaAtual - 1) * contatosPorPagina;
     const fim = inicio + contatosPorPagina;
-    const contatosPagina = contatosFiltrados.slice(inicio, fim);
+    const contatosPagina = contatosOrdenados.slice(inicio, fim);
 
     contactList.innerHTML = '';
     contatosPagina.forEach(contact => {
@@ -151,6 +166,7 @@ document.addEventListener('DOMContentLoaded', function () {
           ${contact.redesSociais.facebook ? `<a href="${contact.redesSociais.facebook}" target="_blank"><i class="fab fa-facebook" style="color: #1877f2;"></i></a>` : ''}
           ${contact.redesSociais.instagram ? `<a href="${contact.redesSociais.instagram}" target="_blank"><i class="fab fa-instagram" style="color: #e4405f;"></i></a>` : ''}
           ${contact.redesSociais.whatsapp ? `<a href="https://wa.me/${contact.redesSociais.whatsapp}" target="_blank"><i class="fab fa-whatsapp" style="color: #25d366;"></i></a>` : ''}
+          ${contact.redesSociais.site ? `<a href="${contact.redesSociais.site}" target="_blank"><i class="fas fa-globe" style="color: #000;"></i></a>` : ''}
         </div>
       `;
 
@@ -239,6 +255,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const facebook = document.getElementById('facebook').value;
     const instagram = document.getElementById('instagram').value;
     const whatsapp = document.getElementById('whatsapp').value;
+    const site = document.getElementById('site').value;
 
     // Adiciona +55 ao número de telefone se não estiver presente
     if (!telefone.startsWith('+55')) {
@@ -247,6 +264,21 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (!validatePhone(telefone)) {
       alert("Por favor, insira um número de telefone válido.");
+      return;
+    }
+
+    if (!validateFacebook(facebook)) {
+      alert("Por favor, insira um link do Facebook válido (ex: https://www.facebook.com/NOMEDOUSUARIO).");
+      return;
+    }
+
+    if (!validateInstagram(instagram)) {
+      alert("Por favor, insira um link do Instagram válido (ex: https://www.instagram.com/NOMEDOUSUARIO).");
+      return;
+    }
+
+    if (!validateWhatsApp(whatsapp)) {
+      alert("Por favor, insira um número de WhatsApp válido (ex: 11999999999).");
       return;
     }
 
@@ -267,7 +299,8 @@ document.addEventListener('DOMContentLoaded', function () {
       redesSociais: {
         facebook,
         instagram,
-        whatsapp,
+        whatsapp: whatsapp ? `+55${whatsapp.replace(/\D/g, '')}` : '',
+        site
       },
       premium: false,
       premiumUntil: null,
@@ -299,6 +332,27 @@ document.addEventListener('DOMContentLoaded', function () {
   function validatePhone(telefone) {
     const regex = /^\+55\d{10,11}$/;
     return regex.test(telefone);
+  }
+
+  // Função para validar o link do Facebook
+  function validateFacebook(facebook) {
+    if (!facebook) return true; // Se o campo estiver vazio, não há problema
+    const regex = /^https:\/\/www\.facebook\.com\/[a-zA-Z0-9.]+$/;
+    return regex.test(facebook);
+  }
+
+  // Função para validar o link do Instagram
+  function validateInstagram(instagram) {
+    if (!instagram) return true; // Se o campo estiver vazio, não há problema
+    const regex = /^https:\/\/www\.instagram\.com\/[a-zA-Z0-9._]+\/?$/;
+    return regex.test(instagram);
+  }
+
+  // Função para validar o número do WhatsApp
+  function validateWhatsApp(whatsapp) {
+    if (!whatsapp) return true; // Se o campo estiver vazio, não há problema
+    const regex = /^\d{10,11}$/;
+    return regex.test(whatsapp);
   }
 
   // Função para filtrar contatos na pesquisa

@@ -272,10 +272,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     for (let i = 1; i <= totalPaginas; i++) {
       const botao = document.createElement('button');
+      botao.classList.add('botao');
       botao.textContent = i;
       botao.classList.add('pagina');
       if (i === paginaAtual) {
-        botao.classList.add('active');
+        
+        botao.classList.add('ativado');
       }
       botao.addEventListener('click', () => {
         paginaAtual = i;
@@ -427,18 +429,26 @@ document.addEventListener('DOMContentLoaded', function () {
     const regex = /^\d{10,11}$/;
     return regex.test(whatsapp);
   }
+// Função para remover acentos
+function removerAcentos(texto) {
+  return texto.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+}
 
-  // Função para filtrar contatos na pesquisa
-  searchInput.addEventListener('input', function () {
-    const searchTerm = searchInput.value.toLowerCase();
-    const filteredContacts = contacts.filter(contact =>
-      contact.nome.toLowerCase().includes(searchTerm) ||
-      contact.telefone.includes(searchTerm) ||
-      contact.categoria.toLowerCase().includes(searchTerm)
-    );
-    paginaAtual = 1;
-    renderContacts(filteredContacts);
+// Função para filtrar contatos na pesquisa
+searchInput.addEventListener('input', function () {
+  const searchTerm = removerAcentos(searchInput.value.toLowerCase());
+  const filteredContacts = contacts.filter(contact => {
+    const nomeNormalizado = removerAcentos(contact.nome.toLowerCase());
+    const telefoneNormalizado = contact.telefone; // Telefone geralmente não tem acentos
+    const categoriaNormalizada = removerAcentos(contact.categoria.toLowerCase());
+
+    return nomeNormalizado.includes(searchTerm) ||
+           telefoneNormalizado.includes(searchTerm) ||
+           categoriaNormalizada.includes(searchTerm);
   });
+  paginaAtual = 1;
+  renderContacts(filteredContacts);
+});
 
   // Adicionar evento para a seção premium
   premiumLink.addEventListener('click', function (e) {

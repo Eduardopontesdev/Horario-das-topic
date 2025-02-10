@@ -155,7 +155,7 @@ section {
   margin-top: 20px;
 }
 
-#paginacao button {
+#paginacao .botao {
   padding: 10px 15px;
   margin: 0 5px;
   border: none;
@@ -165,9 +165,11 @@ section {
   cursor: pointer;
 }
 
-#paginacao button:hover {
-  background-color: #555;
+#paginacao .botao:hover {
+  background-color: #25d366;
 }
+
+
 
 #cadastro-form {
   display: flex;
@@ -352,4 +354,15 @@ footer a:hover {
   margin-top: 20px;
   padding: 10px;
   border-radius: 5px;
+}
+
+
+#paginacao .ativado{
+  padding: 10px 15px;
+  margin: 0 5px;
+  border: none;
+  background-color: #25d366;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
 }

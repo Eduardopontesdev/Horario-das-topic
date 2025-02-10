@@ -269,7 +269,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Função para compartilhar um contato no WhatsApp
   window.shareOnWhatsApp = function (telefone, nome) {
-    const mais = "Encontrei esse contato no Guia Camocim"
+    const mais = "Encontrei esse contato no *Guia Camocim*"
     const mensagem = `Contato: ${nome}\nTelefone: ${telefone}\n${mais}`;
     const url = `https://wa.me/?text=${encodeURIComponent(mensagem)}`;
     window.open(url, '_blank');

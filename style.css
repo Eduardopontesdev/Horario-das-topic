@@ -203,6 +203,18 @@ section {
   display: flex;
   gap: 10px;
   flex-direction: column;
+  justify-content: space-between;
+}
+
+.redes-sociais .rede-social {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.redes-sociais .rede-social input {
+  width: 100%;
 }
 
 .redes-sociais i {

@@ -35,7 +35,7 @@
       <h1>Guia de Camocim</h1>
       <nav>
         <ul>
-          <li><a href="./index.html" id="home-link">Início</a></li>
+          <li><a href="#" id="home-link">Início</a></li>
           <li><a href="#" id="cadastro-link">Cadastrar Contato</a></li>
           <li><a href="#" id="premium-link">Seja Premium</a></li>
         </ul>
@@ -96,14 +96,33 @@
 
           <label for="redes-sociais">Redes Sociais (opcional):</label>
           <div class="redes-sociais">
-            <input type="text" id="facebook" placeholder="Facebook" />
-            <i class="fab fa-facebook"></i>
-            <input type="text" id="instagram" placeholder="Instagram" />
-            <i class="fab fa-instagram"></i>
-            <input type="text" id="whatsapp" placeholder="WhatsApp" />
-            <i class="fab fa-whatsapp"></i>
-            <input type="text" id="site" placeholder="Site" />
-            <i class="fas fa-globe"></i>
+            <div class="rede-social">
+              <i class="fab fa-facebook"></i>
+              <input
+                type="text"
+                id="facebook"
+                placeholder="https://www.facebook.com/SEUUSUARIO"
+              />
+            </div>
+
+            <div class="rede-social">
+              <i class="fab fa-instagram"></i>
+              <input
+                type="text"
+                id="instagram"
+                placeholder="https://www.instagram.com/SEUUSUARIO"
+              />
+            </div>
+
+            <div class="rede-social">
+              <i class="fab fa-whatsapp"></i>
+              <input type="text" id="whatsapp" placeholder="Digite seu WhatsApp exemplo -  88988884444" />
+            </div>
+
+            <div class="rede-social">
+              <i class="fas fa-globe"></i>
+              <input type="text" id="site" placeholder="Digite seu SIte se tiver exemplo  - www.seusite.com" />
+            </div>
           </div>
           <button type="submit">Salvar</button>
         </form>

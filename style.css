@@ -343,3 +343,13 @@ footer a:hover {
   transform: translateY(0);
   box-shadow: none;
 }
+
+.cuidado{
+  font-size: 12px;
+  font-weight: bold;
+  background-color: red;
+  color: #fff;
+  margin-top: 20px;
+  padding: 10px;
+  border-radius: 5px;
+}
